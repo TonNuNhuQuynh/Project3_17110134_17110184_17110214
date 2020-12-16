@@ -1,0 +1,19 @@
+.input-group-text{
+    font-size: 14px;
+    font-weight: 700;
+    /* display: inline-block; width: 100px; text-align: left; */
+}
+.control-label {
+    font-weight: 400;
+}
+:host ::ng-deep .e-multi-select-wrapper {
+    font-family: Montserrat;
+}
+.form-control {
+    font-family: Montserrat;
+    font-weight: 500;
+}
+/* :host ::ng-deep ngb-accordion .card-body
+{
+    padding: 0;
+} */

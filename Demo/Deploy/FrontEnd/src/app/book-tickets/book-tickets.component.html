@@ -1,0 +1,94 @@
+<div class="wrapper">
+    <div class="documentation page-header page-header-small" id="landing-wrapper" >
+        <div class="filter"></div>
+        <div class="motto">
+            <br>
+            <h4 class="title-uppercase text-center">Trang đặt vé</h4>
+            <br>
+            <h5 class="page-description text-center">Chọn ghế muốn đặt, sau đó thanh toán để nhận thông tin xác nhận đặt vé của suất chiếu</h5>
+            <br>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="ticketing-steps bg-white border-bottom">
+            <div class="container">
+                <ul class="nav nav-tabs border-bottom-0">
+                    <li class="col nav-item">
+                        <div class="ticketing-step" [ngClass]="{'active': activeTab == 1}">
+                            <div class="text-danger"><i class="fa fa-th-large"></i><br>Chọn ghế</div>
+                        </div>
+                    </li>
+                    <li class="col nav-item">
+                        <div class="ticketing-step" [ngClass]="{'active': activeTab == 2}">
+                            <div class="text-danger"><i class="fa fa-credit-card"></i><br>Thanh toán</div>
+                        </div>
+                    </li>
+                    <li class="col nav-item">
+                        <div class="ticketing-step" [ngClass]="{'active': activeTab == 3}">
+                            <div class="text-danger"><i class="fa fa-inbox"></i><br>Thông tin vé</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-lg-8 col-12">
+                    <router-outlet *ngIf="isLoaded" (activate)="onChildLoaded($event)"></router-outlet>
+                </div>
+                <div class="col-lg-4 col-12 order-sm-last">
+                    <!-- Info của lịch chiếu -->
+                    <div class="card card-sm">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <p class="text-truncate name mb-0">{{bookingInfo.movieName}}</p>
+                                    <p class="text-truncate mb-0"><strong>{{bookingInfo.cinemaName}}</strong></p>
+                                    <p class="text-truncate mb-0">Suất <strong>{{bookingInfo.startDate | date:'HH:mm'}}</strong> - <strong>{{bookingInfo.startDate | date:'dd/MM/yyyy'}}</strong></p>
+                                    <p class="mb-0">Phòng chiếu <strong>{{roomInfo.name}}</strong> - Ghế
+                                        <ng-container *ngFor="let seat of selectedSeats; let i = index">
+                                            <span *ngIf="i != selectedSeats.length - 1" class="font-weight-bold ticketing-seats">{{seat.code}}, </span>
+                                            <span *ngIf="i == selectedSeats.length - 1" class="font-weight-bold ticketing-seats">{{seat.code}}</span>
+                                        </ng-container>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Total và time giữ ghế -->
+                    <div class="card sticky-header-bars">
+                        <div class="card-body">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <!-- Title -->
+                                    <h6 class="card-title text-uppercase text-muted mb-2">Tổng đơn hàng</h6>
+                                    <!-- Total -->
+                                    <span class="h5 mb-0 ticketing-total-amount">{{total}} đ</span>
+                                </div>
+
+                                <div class="col text-right border-left ticketing-countdown-timer">
+                                    <!-- Title -->
+                                    <h6 class="card-title text-uppercase text-muted mb-2">Thời gian giữ ghế</h6>
+                                    <!-- Countdown -->
+                                    <span *ngIf="!done" [style.color]="countdownColor" class="h5 mb-0 countdown-timer">{{countdownText}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="isNext()" class="flow-actions sticky-button-bars">
+                        <button (click)="checkout()" class="btn btn-lg btn-dark btn-ticketing-do-submit btn-block btn-ticketing-flow" [disabled]="selectedSeats.length == 0">Tiếp tục</button>
+                    </div>
+                </div>
+            </div>
+        </div>     
+
+        <br>
+        <br>
+        <br>
+
+    </div>
+</div>

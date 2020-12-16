@@ -1,0 +1,111 @@
+.card {
+    margin-bottom: 1.5rem;
+    border-color: #edf2f9;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #edf2f9;
+    border-radius: .5rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+.card:not(.card-plain):hover 
+{
+    box-shadow: none;
+    transform: none;
+    -webkit-transform: none;
+    -ms-transform: none;
+    -moz-transform: none;
+}
+.card-header-title {
+    margin-bottom: 0;
+    font-weight: 550;
+}
+.card-header>* {
+    flex: 1;
+}
+.card-header:first-child {
+    border-radius: calc(.5rem - 1px) calc(.5rem - 1px) 0 0;
+}
+.card-header {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+    min-height: 3.75rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+.bg-light {
+    background-color: #edf2f9!important;
+}
+.card-header {
+    padding: 1rem 1.5rem;
+    margin-bottom: 0;
+    background-color: transparent;
+    border-bottom: 1px solid #edf2f9;
+}
+.text-muted {
+    color: #12263f!important;
+}
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.table {
+    vertical-align: middle;
+}
+.card-table {
+    margin-bottom: 0;
+}
+.table {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    color: #12263f;
+}
+.card-body {
+    flex: 1 1 auto;
+    padding: 1.5rem;
+}
+label, td { font-weight: 500;}
+.btn-dark {
+    color: #fff;
+    background-color: #12263f;
+    border-color: #12263f;
+}
+.btn-dark.disabled, .btn-dark:disabled {
+    color: #fff;
+    background-color: #12263f;
+    border-color: #12263f;
+}
+.btn.disabled, .btn:disabled {
+    opacity: .65;
+}
+.btn-lg {
+    padding: .5rem 1rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: .5rem;
+}
+.input-group .form-control:not(:focus) {
+    border-left: 1px solid #DDDDDD;
+    border-right: 1px solid #DDDDDD;
+}
+.input-group .form-control:focus {
+    border: 1px solid #9A9A9A;
+}
+.input-group .form-control.is-invalid {
+    border: 1px solid #f5593d !important
+}
+.alert-light {
+    color: #283e59;
+    background-color: #edf2f9;
+    border-color: #edf2f9;
+    font-weight: 400;
+  }
+

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\2020_2021\\Project3\\Training\\Project3\\Project3.csproj": {}
+    "D:\\2020_2021\\Project3\\Project3_17110134_17110184_17110214\\Demo\\Training\\Project3\\Project3.csproj": {}
   },
   "projects": {
-    "D:\\2020_2021\\Project3\\Training\\Project3\\Project3.csproj": {
+    "D:\\2020_2021\\Project3\\Project3_17110134_17110184_17110214\\Demo\\Training\\Project3\\Project3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\2020_2021\\Project3\\Training\\Project3\\Project3.csproj",
+        "projectUniqueName": "D:\\2020_2021\\Project3\\Project3_17110134_17110184_17110214\\Demo\\Training\\Project3\\Project3.csproj",
         "projectName": "Project3",
-        "projectPath": "D:\\2020_2021\\Project3\\Training\\Project3\\Project3.csproj",
+        "projectPath": "D:\\2020_2021\\Project3\\Project3_17110134_17110184_17110214\\Demo\\Training\\Project3\\Project3.csproj",
         "packagesPath": "C:\\Users\\LENOVO\\.nuget\\packages\\",
-        "outputPath": "D:\\2020_2021\\Project3\\Training\\Project3\\obj\\",
+        "outputPath": "D:\\2020_2021\\Project3\\Project3_17110134_17110184_17110214\\Demo\\Training\\Project3\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

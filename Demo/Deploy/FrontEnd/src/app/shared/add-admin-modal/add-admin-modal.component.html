@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <h5 class="modal-title text-center text-danger" style="font-weight: bold;">Thêm Admin</h5>
+    <button [disabled]="!loaded" type="button" class="close" aria-label="Close" (click)="closeAlert('Close')">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body" style="overflow-y: auto; max-height: 400px;"> 
+
+  <div class="container mb-2" id="div">
+    <ngb-alert id="success" *ngIf="showAlert" type="danger" [dismissible]="true">
+      <div class="container"><i class="nc-bell-55 nc-icon"></i>  {{ alertMessage }}</div>
+    </ngb-alert>
+  </div>
+
+  <form class="form-horizontal" id="form" name="form" #form="ngForm">
+    <!-- UserName -->
+    <div class="col-auto mb-2 mt-2">
+      <div class="input-group">
+        <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-user"></i></div></div>
+        <input required pattern="^[a-z0-9_-]{6,15}$" type="text" class="form-control" [(ngModel)]="account.username" name="username" placeholder="Username" #username="ngModel">
+      </div>
+      <ng-container *ngIf="username.invalid && (username.touched || username.dirty)">
+        <div class="text-danger" *ngIf="username.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+        <div class="text-danger" *ngIf="username.errors?.pattern"><i class="fa fa-exclamation-circle"></i> Tên đăng nhập phải từ 6 - 15 chữ, không có khoảng trắng!</div>
+      </ng-container>
+    </div>
+
+    <div class="col-auto mb-2 mt-4">
+      <div class="input-group">
+        <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-envelope "></i></div></div>
+        <input required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" #e="ngModel" type="email" [(ngModel)]="account.email" class="form-control" name="email" placeholder="Email">
+      </div>
+      <ng-container *ngIf="(e.invalid && e.touched) || e.dirty">
+        <div class="text-danger" *ngIf="(e.errors?.required && e.touched)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+        <div class="text-danger" *ngIf="(e.errors?.pattern)"><i class="fa fa-exclamation-circle"></i> Email không hợp lệ</div>
+      </ng-container>
+    </div>
+
+    <div class="col-auto mb-2 mt-4">
+        <div class="input-group">
+          <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-id-card"></i></div></div>
+          <input required type="text" [(ngModel)]="account.user.fullname" class="form-control" name="name" placeholder="Full name" #name="ngModel">
+        </div>
+        <div class="text-danger" *ngIf="(name.errors?.required && name.touched)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+    </div>
+  </form>
+
+</div>
+
+<div class="modal-footer">
+  <div class="left-side"><button [disabled]="!loaded" type="button" class="btn btn-default btn-link" (click)="closeAlert('Close')">Hủy</button></div>
+  <div class="divider"></div>
+  <div class="right-side"><button [disabled]="username.invalid || name.invalid || e.invalid || !loaded" type="button" class="btn btn-danger btn-link" (click)="addAccount()">Thêm tài khoản</button></div>
+</div>
+

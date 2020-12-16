@@ -1,0 +1,10 @@
+<div class="modal-body">
+    <div *ngIf="!updated" class="text-center" id="fadeOut">
+        <div class="loader"></div>
+        <p><strong>Kiểm tra các rạp phim mới chưa được thêm</strong></p>
+    </div>
+    <div *ngIf="updated" class="text-center">
+        <div style="text-align: center;"><img src="./assets/img/success.png" style="height: 110px; width: 110px;"></div>
+        <p><strong>Không có rạp phim mới nào cần cập nhật!</strong></p>
+    </div>
+</div>

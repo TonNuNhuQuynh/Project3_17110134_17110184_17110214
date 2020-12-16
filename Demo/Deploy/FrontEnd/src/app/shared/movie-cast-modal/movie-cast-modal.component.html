@@ -1,0 +1,94 @@
+<div class="modal-header">
+    <h5 class="modal-title text-center text-danger" style="font-weight: bold;">Diễn viên của phim</h5>
+    <button [disabled]="!loaded" type="button" class="close" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body" style="overflow-y: auto; max-height: 400px;"> 
+
+  <div class="container mb-2" id="div">
+    <ngb-alert id="success" *ngIf="showAlert" type="success" [dismissible]="true">
+      <div class="container"><i class="nc-bell-55 nc-icon"></i>  {{ alertMessage }}</div>
+    </ngb-alert>
+  </div>
+
+  <form class="form-horizontal" id="form" name="form" #form="ngForm" ng-submit="contactForm()">
+    <!-- Name -->
+    <div class="col-auto mb-2 mt-2">
+      <div class="text-danger" *ngIf="existed">Diễn viên đã có rồi!</div>
+      <div class="input-group">
+        <div class="input-group-prepend"><div class="input-group-text">Tên diễn viên</div></div>
+        <input required type="text" class="form-control" name="name" [(ngModel)]="cast.name" placeholder="Name of actor">
+      </div>
+      <div class="text-danger" *ngIf="(form.controls.name?.errors?.required && form.controls.name?.touched)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+    </div>
+
+    <div class="col-auto mb-2 mt-2">
+      <div class="input-group">
+        <div class="input-group-prepend"><div class="input-group-text">Tên nhân vật</div></div>
+        <input required type="text" class="form-control" name="character" [(ngModel)]="cast.character" placeholder="Name of character">
+      </div>
+      <div class="text-danger" *ngIf="(form.controls.character?.errors?.required && form.controls.character?.touched)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+    </div>
+  </form>
+  <!-- <div class="container">
+    <ngb-alert *ngIf="showAlert" [type]="alertType" [dismissible]="false">
+      <div class="container">
+        <i class="nc-bell-55 nc-icon"></i>{{ alertMessage }}
+        <button type="button" name="button" class="close" (click)="closeAlert()">
+            <i class="nc-icon nc-simple-remove"></i>
+        </button>
+      </div>
+    </ngb-alert>
+  </div> -->
+
+  <div class="container mb-4">
+    <button [disabled]="cast.name === '' || cast.character === '' || form.controls.name?.errors?.required || form.controls.character?.errors?.required" (click)="save()" class="btn btn-{{class}} btn-round"><span class="fa fa-{{icon}}"></span>{{btnText}}</button>
+    <button (click)="cancel()" *ngIf='allowCancel' class="btn bg-transparent text-dark btn-sm" style="border: none;"><i class="fa fa-remove" style="color: black;"></i>Hủy</button>
+  </div>
+
+  <!-- <div class="container mt-2">
+    <div class="card text-white bg-dark" *ngFor="let c of casts">
+      <div class="card-footer">
+        <div class="row">
+          <p placement="top" ngbTooltip="{{c.character}}" class="col-md-9 cut-text">{{c.name}} - {{c.character}} </p>
+          <div class="btn-group col-md-3">
+            <button class="btn bg-transparent btn-sm" (click)="editCast()" style="border: none;"><i class="fa fa-edit"></i></button>
+            <button class="btn bg-transparent btn-sm" style="border: none;"><i class="fa fa-remove"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="container mt-2">
+    <table id="table" class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th class="text-center" scope="col">Diễn viên</th>
+          <th class="text-center" scope="col">Nhân vật</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr id="c.name" *ngFor='let c of casts'>
+          <td><p placement="top" ngbTooltip="{{c.name}}" class="cut-text">{{c.name}}</p></td>
+          <td><p placement="top" ngbTooltip="{{c.character}}" class="cut-text">{{c.character}}</p></td>
+          <td>
+            <div class="btn-group">
+              <button class="btn btn-primary btn-sm" (click)="editCast(c)" style="border: none;"><i class="fa fa-edit"></i></button>
+              <button class="btn btn-danger btn-sm" [disabled]="casts.length == 1" (click)="deleteCast(c.name)" style="border: none;"><i class="fa fa-remove"></i></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+  </table>
+  </div>
+
+</div>
+
+<div class="modal-footer">
+  <div class="left-side"><button [disabled]="!loaded" type="button" class="btn btn-default btn-link" (click)="closeAlert()">Hủy</button></div>
+  <div class="divider"></div>
+  <div class="right-side"><button [disabled]="!loaded" type="button" class="btn btn-danger btn-link" (click)="saveChanges()">Lưu</button></div>
+</div>

@@ -1,0 +1,83 @@
+<div class="ticketing-content ticketing-checkout-page">
+    <div *ngIf="loading" class="col-12 text-center">
+        <div class="spinner-border text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div> 
+
+    <ng-container *ngIf="!loading">
+        <div *ngIf="auth.currentAccountValue == null" class="col-12" style="padding-left: 0px !important; padding-right: 0px !important;">
+            <div class="alert alert-light text-justify" style="font-weight: 500; padding: 1rem 1.5rem;">
+                <a href="javascript:void(0)" (click)="openLoginModal()" style="font-weight: 600;">Đăng nhập</a> khi đặt vé để chúng tôi giúp bạn ghi nhớ lịch sử mua!
+            </div>
+        </div>
+
+        <!-- Tóm tắt order -->
+        <div class="card">
+            <div class="card-header bg-light">
+                <div class="card-header-title text-muted">Tóm tắt đơn hàng</div>
+            </div>
+            <div class="table-responsive">
+                <table class="table card-table">
+                    <thead>
+                        <tr>
+                            <th>Mô tả</th>
+                            <th class="text-center">Số lượng</th>
+                            <th class="text-right">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let detail of summary">
+                            <td>{{detail.seatTypeName}}</td>
+                            <td class="text-center">{{detail.quantity}}</td>
+                            <td class="text-right">{{detail.amount}} đ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    
+        <!-- Thông tin cá nhân  -->
+        <div class="card">
+            <div class="card-header bg-light">
+                <div class="card-header-title text-muted">Thông tin cá nhân</div>
+            </div>
+            <div class="card-body">
+                <!-- Họ và tên -->
+                <div class="mb-4">
+                    <label>Họ và tên</label>
+                    <div class="input-group" [ngClass]="{'error': fullname.invalid && (fullname.touched || fullname.dirty)}">
+                        <input type="text" required name="fullname" #fullname="ngModel" [(ngModel)]="bookingInfo.name" class="form-control" [ngClass]="{'is-invalid': fullname.errors?.required && (fullname.touched || fullname.dirty)}">
+                    </div>
+                    <div class="text-danger" *ngIf="fullname.errors?.required && (fullname.touched || fullname.dirty)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+                </div>
+                
+                <!-- Email -->
+                <div class="mb-4">
+                    <label>Email</label>
+                    <div class="input-group" [ngClass]="{'error': email.invalid && (email.touched || email.dirty)}">
+                        <input type="email" required name="email" [(ngModel)]="bookingInfo.email" #email="ngModel" class="form-control" [ngClass]="{'is-invalid': email.invalid && (email.touched || email.dirty)}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+                    </div>
+                    <ng-container *ngIf="email.invalid && (email.touched || email.dirty)">
+                        <div class="text-danger" *ngIf="email.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+                        <div class="text-danger" *ngIf="email.errors?.pattern"><i class="fa fa-exclamation-circle"></i> Email không hợp lệ!</div>
+                    </ng-container>
+                </div>
+
+                <!-- Phone -->
+                <div class="mb-4">
+                    <label>Số điện thoại</label>
+                    <div class="input-group" [ngClass]="{'error': phone.invalid && (phone.touched || phone.dirty)}">
+                        <input type="tel" required name="phone" [(ngModel)]="bookingInfo.phone" #phone="ngModel" class="form-control" [ngClass]="{'is-invalid': phone.invalid && (phone.touched || phone.dirty)}">
+                    </div>
+                    <ng-container *ngIf="phone.invalid && (phone.touched || phone.dirty)">
+                        <div class="text-danger" *ngIf="phone.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+                        <div class="text-danger" *ngIf="phone.errors?.tel"><i class="fa fa-exclamation-circle"></i> Số điện thoại không hợp lệ!</div>
+                    </ng-container>
+                </div>
+                
+                <button [disabled]="fullname.invalid || email.invalid || phone.invalid" (click)="checkout()" class="btn btn-lg btn-dark btn-block">Thanh toán</button>
+            </div>
+        </div>
+    </ng-container>
+</div>

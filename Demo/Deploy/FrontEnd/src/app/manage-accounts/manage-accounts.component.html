@@ -1,0 +1,77 @@
+<div class="wrapper">
+    <div class="documentation page-header page-header-small" id="landing-wrapper">
+        <div class="filter"></div>
+        <div class="motto">
+            <br>
+            <h4 class="title-uppercase text-center">Quản lý tài khoản</h4>
+            <br>
+            <h5 class="page-description text-center">Trang quản lý các tài khoản người dùng cho Admin và Super Admin </h5>
+            <br>
+        </div>
+    </div>
+    <div class="main">
+        <div class="section">
+            <div class="container">
+                <h2>Danh sách các tài khoản người dùng</h2>
+                <br> 
+                <div class="row tim-row">
+                    <!-- Filters -->
+                    <div class="col-lg-12 col-md-12">
+                        <div class="fixed-section">
+                            <!-- <span class="label label-info mb-4">Loại tài khoản</span> -->
+                            <!-- Roles -->
+                            <div id="dropdown" ngbDropdown class="d-inline-block btn-block mb-3">
+                                <button class="btn btn-block form-control dropdown-text" style="float: left; width: 20%;" id="dropdownMenu1" ngbDropdownToggle>{{rSelectAll}}</button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu1" ngbDropdownMenu>
+                                    <button *ngIf="roles.length > 1" (click)="filterRoles(roles.length + 1, 'Tất cả')" class="dropdown-item">Tất cả</button>
+                                    <button *ngFor="let r of roles" (click)="filterRoles(r.id, r.name)" class="dropdown-item">{{r.name}}</button>
+                                </div>
+                            </div>
+                            <button id="newAdmin" *ngIf="isSuperAdmin" (click)="openAddAdminModal()" class="btn btn-success btn-block text-center" style="float: right; width: 20%; height: 100%;"><span class="fa fa-plus-circle"></span> Thêm Admin</button>
+                        </div>
+                    </div>  
+                    
+                    <!-- Movie List -->
+                    <div class="col-lg-12 col-md-12 mt-2" id="overlap">
+                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="table" class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                <th class="text-center" scope="col">Ảnh</th>
+                                <th class="text-center" scope="col">Username</th>
+                                <th class="text-center" scope="col">Họ và tên</th>
+                                <th class="text-center" scope="col">Email</th>
+                                <th class="text-center" scope="col">Loại tài khoản</th>
+                                <th class="text-center" scope="col">Trạng thái</th>
+                                <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                <tr *ngFor='let a of filterAccounts'>
+                                    <td>
+                                        <img *ngIf="a.user.image != null && a.user.image != ''" class="img-circle img-responsive" [src]="a.user.image" style="width:4rem;height:4rem;">
+                                        <img *ngIf="a.user.image == null || a.user.image == ''" class="img-circle img-responsive" src="./assets/img/user-default.png" style="width:4rem;height:4rem;">
+                                    </td>
+                                    <td><p class="cut-text username" placement="top" ngbTooltip="{{a.username}}">{{a.username}}</p></td>
+                                    <td><p class="cut-text" placement="top" ngbTooltip="{{a.user.fullname}}"><strong>{{a.user.fullname}}</strong></p></td>
+                                    <td><p class="cut-text" placement="top" ngbTooltip="{{a.email}}"><strong>{{a.email}}</strong></p></td>
+                                    <td class="text-center"><strong>{{a.roleName}}</strong></td>
+                                    <td class="text-center">
+                                        <div *ngIf="a.isActive"><i class="fa fa-check-circle"></i></div>
+                                        <div *ngIf="!a.isActive"><i class="fa fa-ban"></i></div>
+                                    </td>
+                                    <td>
+                                        <!-- Block  -->
+                                        <button *ngIf="a.isActive" type="button" class="btn btn-round btn-default btn-sm" (click)="block(a.id)"><i class="fa fa-ban"></i></button>
+                                        <button *ngIf="!a.isActive" type="button" class="btn btn-round btn-success btn-sm" (click)="unBlock(a.id)"><i class="fa fa-unlock"></i></button>
+                                        <!-- Delete -->
+                                        <button type="button" class="btn btn-danger btn-round btn-sm" (click)="deleteAccount(a.id)"><i class="fa fa-remove"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>    
+            </div>       
+        </div>
+    </div>
+</div>

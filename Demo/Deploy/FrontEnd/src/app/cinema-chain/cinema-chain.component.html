@@ -1,0 +1,61 @@
+<div class="wrapper">
+    <div class="documentation page-header page-header-small" id="landing-wrapper" >
+        <div class="filter"></div>
+        <div class="motto">
+            <br>
+            <h4 class="title-uppercase text-center">Hệ thống chuỗi rạp {{chainName}}</h4>
+            <br>
+            <h5 class="text-center">{{cinemaCounts}} cụm rạp chiếu phim thuộc {{cinemasInCities.length}} tỉnh thành trên toàn quốc.</h5>
+            <br>
+        </div>
+    </div>
+    <div class="main">
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-8 col-12">
+                        <!-- Loading -->
+                        <div *ngIf="!isLoaded" class="col-12 text-center">
+                            <div class="spinner-border text-danger" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div> 
+
+                        <!-- Rạp trong từng thành phố -->
+                        <ng-container *ngIf="isLoaded">
+                            <div class="mb-4">
+                                <ejs-dropdownlist (change)="onChange()" class="form-control" [(value)]="cityId" [dataSource]='cities' [fields]='localFields' placeholder='Chọn tỉnh thành' [allowFiltering]='true'></ejs-dropdownlist>
+                            </div>
+                            
+                            <div class="card" *ngFor="let c of cinemasInCities">
+                                <div class="card-header bg-light" id="city-{{c.city.id}}">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <div class="card-header-title text-body"><a class="name">{{c.city.name}}</a></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <span class="badge badge-danger">{{c.cinemas.length}} cụm rạp</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list">
+                                    <div class="border-bottom" *ngFor="let cinema of c.cinemas">
+                                        <div class="row align-items-center pl-4 pr-4 pb-3 pt-3 ">
+                                            <div class="col">
+                                                <h5 style="font-size: 1.15em;" class="card-title"><a [routerLink]="['/cinema']" [queryParams]="{ cinema: cinema.id }" class="sub-name">{{cinema.name}}</a></h5>
+                                                <p class="card-text small address mb-0">{{cinema.address}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>       
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+</div>

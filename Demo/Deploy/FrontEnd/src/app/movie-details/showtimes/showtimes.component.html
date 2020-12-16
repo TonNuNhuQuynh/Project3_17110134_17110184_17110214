@@ -1,0 +1,78 @@
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Chọn thành phố -->
+            <div class="card card-sm">
+                <div class="card-body">
+                    <h4 class="mb-2">Lịch chiếu</h4>
+                    <p class="text-muted">Chọn khu vực bạn muốn xem lịch chiếu cho phim <strong class="title">{{movieName}}</strong>.</p>
+                    <div class="row mt-3">
+                        <div class="col-6 col-sm-8">
+                            <ejs-dropdownlist class="form-control" [(value)]="cityId" [dataSource]='cities' [fields]='localFields' placeholder='Chọn tỉnh thành' [allowFiltering]='true'></ejs-dropdownlist>
+                        </div>
+                        <div class="col-6 col-sm-4"><a (click)="initShowtimes()" class="btn btn-dark btn-block btn-do-select-region">Xem lịch chiếu</a></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Chọn ngày chiếu -->
+            <div class="btn-group btn-block mb-3" id="dates">
+                <a *ngFor="let d of dates; let i = index" class="btn btn-light text-muted date" [ngClass]="{'active': i == activeDate}" (click)="pickDate(i)"> {{d.date | date:'dd/MM'}}<br><span class="small text-nowrap">{{d.dayOfWeek}}</span></a>
+            </div>
+
+        
+            <!-- Lịch chiếu -->
+            <div *ngIf="!isLoaded" class="col-12 text-center">
+                <div class="spinner-border text-danger" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div> 
+            
+            <div *ngIf="isLoaded" class="card"> 
+                <div *ngIf="cinemaChains.length == 0" class="card-body text-center text-muted">
+                    <p class="h2"><i class="fa fa-ban"></i></p>
+                    <p class="mb-0">Không có lịch chiếu phù hợp với điều kiện tìm kiếm của bạn <br>Hãy thử chọn một ngày khác hoặc tỉnh thành khác.</p>
+                </div>
+
+                <div *ngIf="cinemaChains.length > 0" class="list-group list-group-flush">
+                    <ng-container *ngFor="let chain of cinemaChains">
+                        <!-- Tên chuỗi  -->
+                        <a class="list-group-item bg-light" data-toggle="collapse" href="#chain-{{chain.id}}">
+                            <div class="row align-items-center">
+                                <!-- avatar của chuỗi rạp -->
+                                <div class="col-auto"><div class="avatar avatar-sm"><img [src]="chain.logo" class="img-circle img-no-padding img-responsive"></div></div>
+                                <!-- Tên chuỗi và số rạp trong thành phố -->
+                                <div class="col ml-n3">
+                                    <h5 class="text-body mb-1 name">{{chain.name}}</h5>
+                                    <p class="small text-muted mb-0">{{chain.cinemas.length}} rạp</p>
+                                </div>
+                                <div class="col-auto"><span class="text-muted h6"><i class="fa fa-chevron-right"></i></span></div>
+                            </div>
+                        </a>
+                        <!-- Các rạp trong chuỗi có lịch chiếu -->
+                        <a class="list-group collapse show" id="chain-{{chain.id}}">
+                            <a class="list-group-item showtime" *ngFor="let cinema of chain.cinemas" #showtime name="{{chain.id}}-{{cinema.id}}" data-toggle="collapse" href="#cinema-{{cinema.id}}">
+                                <h4 class="mb-0 sub-name">{{cinema.name}}</h4>
+                                <!-- Lịch chiếu của từng rạp -->
+                                <div class="mt-0 collapse" id="cinema-{{cinema.id}}">
+                                    <p class="small text-muted mb-3">{{cinema.address}} - <a [routerLink]="['../../cinema']" [queryParams]="{ cinema: cinema.id }">Thông tin rạp</a></p>
+                                    <div *ngIf="cinema.showtimeFormats == null" class="col-12 text-center">
+                                        <div class="small spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>
+                                    </div>  
+                                    <div *ngIf="cinema.showtimeFormats != null" class="showtimes">
+                                        <div class="mb-1" *ngFor="let format of cinema.showtimeFormats">
+                                            <label class="small mb-2 font-weight-bold d-block text-dark">{{format.name}}</label>
+                                            <a *ngFor="let showtime of format.showtimes" (click)="booking(showtime, cinema.name, cinema.id, chain.noOfMaxSeats, cinema.address)" [ngClass]="{'disabled': overtime(showtime.startDate) }" class="btn btn-sm btn-showtime btn-outline-dark">
+                                                <span class="time">{{showtime.startDate | date:'HH:mm'}}</span>
+                                                <span class="amenity">{{showtime.info}}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </a>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

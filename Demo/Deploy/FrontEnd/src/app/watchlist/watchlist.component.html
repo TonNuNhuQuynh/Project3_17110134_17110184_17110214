@@ -1,0 +1,116 @@
+<div class="wrapper">
+    <div class="page-header page-header-xs" data-parallax="true" id="landing-wrapper">
+        <div class="filter"></div>
+        <div class="motto">
+            <br>
+            <h4 class="title-uppercase text-center">Tủ phim của bạn</h4>
+            <br>
+        </div>
+    </div>
+    <div class="section profile-content">
+        <div class="container">
+            <div class="owner">
+                <div class="avatar">
+                    <img [src]="auth.currentAccountValue.user.image == null? './assets/img/user-default.png': auth.currentAccountValue.user.image" style="height: 155px; width: 155px;" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                </div>
+                <div class="name">
+                    <h4 class="title text-danger">{{auth.currentAccountValue.username}}</h4>
+                </div>
+            </div>
+            <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                    <ngb-tabset [justify]="'center'" [destroyOnHide]="false" >
+
+                        <ngb-tab title="Tủ phim">
+                            <ng-template ngbTabContent >
+                                <div class="container mt-4">
+                                    <br>
+                                    <div class="row tim-row justify-content-center">
+                                        <div *ngIf="!isLoaded" class="col-12 text-center">
+                                            <div class="spinner-border text-danger" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </div>     
+                                        
+                                        <ng-container *ngIf="isLoaded && watchlist.length > 0">
+                                            <div class="col-md-2 col-sm-4 col-6 mb-4" *ngFor="let m of watchlist">
+                                                <div class="card card-xs">
+                                                    <a [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.id }">
+                                                        <img class="card-img-top embed-responsive-item" [src]="m.poster == null ? './assets/img/no-poster.png': m.poster" alt="Card image cap">
+                                                    </a>
+                                                    <div class="card-body border-top">
+                                                        <h3 class="text-truncate h4 mb-1 text-left" placement="right" ngbTooltip="{{m.title}}" container="body"><a [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.id }">{{m.title}}</a></h3>
+                                                        <div class="row no-gutters small">
+                                                            <div class="col text-muted text-left">{{m.releaseDate | date : 'dd/MM/yyyy'}}</div>
+                                                            <div *ngIf="m.ratings > 0" class="col text-right"><a class="text-dark"><i class="fa fa-star text-warning"></i> <strong>{{m.ratings}}</strong></a></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        
+    
+                                        <div *ngIf="isLoaded && watchlist.length == 0" class="col-md-8 col-sm-12">
+                                            <div class="alert alert-light text-justify">Tủ phim của bạn đang trống.<br>Hãy đánh giá ngay 1 bộ phim đầu tiên để lấp đầy tủ phim của mình nào!</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <ngb-tab title="Vé đã mua">
+                            <ng-template ngbTabContent>
+                                <div class="container pt-4">
+                                    <br>
+                                    <div class="row tim-row justify-content-center">
+                                        <div class="col-md-8 col-sm-12">
+                                            <!-- Loading -->
+                                            <div *ngIf="!isLoaded2" class="col-12 text-center">
+                                              <div class="small spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>
+                                            </div>  
+                                            <!-- Đã load xong nhưng không có order -->
+                                            <div *ngIf="isLoaded2 && orders.length == 0" class="col-12">
+                                                <div class="alert alert-light text-justify">Bạn chưa có giao dịch nào trước đây.<br>Đăng nhập khi đặt vé để chúng tôi giúp bạn ghi nhớ lịch sử mua!</div>
+                                            </div>
+    
+                                            <!-- Đã load xong & có lịch chiếu -->
+                                            <ng-container *ngIf="isLoaded2 && orders.length > 0">
+                                              <div class="card card-sm mb-3 ticket" *ngFor="let o of orders">
+                                                <div class="card-body">
+                                                  <div class="row">
+                                                    <!-- Hình phim -->
+                                                    <div class="col-3 col-sm-2"><a [routerLink]="['/movie-details']" [queryParams]="{ movieId: o.id }"><img [src]="o.poster == null ? './assets/img/no-poster.png': o.poster" class="img-rounded img-fluid"></a></div>
+                                                    
+                                                    <div class="col ml-n2" style="text-align: left;">
+                                                      <!-- Tên phim -->
+                                                        <h4 class="card-title mb-1 name"><a [routerLink]="['/movie-details']" [queryParams]="{ movieId: o.id }">{{o.title}}</a></h4>
+                                                        <p class="card-text sub-name mb-0">{{o.originalTitle}} · {{o.runtime}} phút <span class="warning" *ngIf=" o.ageRating != null && o.ageRating != '' ">· {{o.ageRating}}</span></p>
+                                                        <p class="text-truncate mb-0"><strong>{{o.cinemaName}}</strong></p>
+                                                        <p class="text-truncate mb-0">Suất <strong>{{o.startDate | date:'HH:mm'}}</strong> - <strong>{{o.startDate | date:'dd/MM/yyyy'}}</strong></p>
+                                                        <p class="mb-0">Phòng chiếu <strong>{{o.roomName}}</strong> - Ghế
+                                                            <ng-container *ngFor="let seat of o.seats; let i = index">
+                                                                <span *ngIf="i != o.seats.length - 1" class="font-weight-bold ticketing-seats">{{seat}}, </span>
+                                                                <span *ngIf="i == o.seats.length - 1" class="font-weight-bold ticketing-seats">{{seat}}</span>
+                                                            </ng-container>
+                                                        </p>
+                                                        <p class="text-danger mb-0 mt-2 price"><strong>Thành tiền: {{o.total}} VNĐ</strong></p>
+                                                    </div>
+                                                  </div>
+                                                </div>
+                                                <div class="right"><div class="barcode"></div></div>
+                                              </div>
+                                            </ng-container>
+                                  
+                                          </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                            
+                        </ngb-tab>
+
+                    </ngb-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

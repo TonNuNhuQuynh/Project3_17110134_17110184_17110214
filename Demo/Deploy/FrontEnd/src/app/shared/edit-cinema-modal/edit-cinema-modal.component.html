@@ -1,0 +1,85 @@
+<div class="modal-header">
+    <h5 class="modal-title text-center text-danger" style="font-weight: bold;">Cập nhật thông tin rạp</h5>
+    <button type="button" [disabled]="!loaded" class="close" aria-label="Close" (click)="closeAlert('Close')">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body" style="overflow-y: auto; max-height: 500px;"> 
+
+  <form class="form-horizontal" name="form" #form="ngForm">
+    <!-- Name -->
+    <div class="col-auto mb-2 mt-2">
+        <div class="input-group" [ngClass]="{'error': name.invalid && (name.touched || name.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Tên rạp</div></div>
+          <input type="text" [ngClass]="{'is-invalid': name.invalid && (name.touched || name.dirty)}" class="form-control" name="name" [(ngModel)]="cinema.name" placeholder="Name" #name="ngModel" required>
+        </div>
+        <div class="text-danger" *ngIf="name.errors?.required && (name.touched || name.dirty)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+    </div>
+
+    <!-- Description -->
+    <div class="col-auto mb-2">
+        <div class="input-group" [ngClass]="{'error': des.invalid && (des.touched || des.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Mô tả</div></div>
+          <textarea #des="ngModel" required [ngClass]="{'is-invalid': des.invalid && (des.touched || des.dirty)}" name="description" [(ngModel)]="cinema.description" class="form-control" placeholder="Description" rows="2"></textarea>
+        </div>
+        <div class="text-danger" *ngIf="des.errors?.required && (des.touched || des.dirty)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+    </div>
+
+    <!-- Address -->
+    <div class="col-auto mb-2">
+        <div class="input-group" [ngClass]="{'error': addr.invalid && (addr.touched || addr.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Địa chỉ</div></div>
+          <input type="text" class="form-control" [ngClass]="{'is-invalid': addr.invalid && (addr.touched || addr.dirty)}" name="address" [(ngModel)]="cinema.address" placeholder="Address" #addr="ngModel" required>
+        </div>
+        <div class="text-danger" *ngIf="addr.errors?.required && (addr.touched || addr.dirty)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+    </div>
+
+    <!-- Latitude, Longitude -->
+    <div class="col-auto mb-2">
+        <div class="input-group" [ngClass]="{'error': latitude.invalid && (latitude.touched || latitude.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Vĩ độ</div></div>
+          <input [ngClass]="{'is-invalid': latitude.invalid && (latitude.touched || latitude.dirty)}" type="number" step="0.01" class="form-control" name="latitude" [(ngModel)]="lat" placeholder="Latitude" #latitude="ngModel" required>
+        </div>
+        <ng-container *ngIf="latitude.invalid && (latitude.touched || latitude.dirty)">
+          <div class="text-danger" *ngIf="latitude.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+          <div class="text-danger" *ngIf="latitude.errors?.number"><i class="fa fa-exclamation-circle"></i> Giá trị không hợp lệ!</div>
+        </ng-container>
+    </div>
+
+    <div class="col-auto mb-2">
+      <div class="input-group" [ngClass]="{'error': longitude.invalid && (longitude.touched || longitude.dirty)}">
+        <div class="input-group-prepend"><div class="input-group-text">Kinh độ</div></div>
+        <input type="number" [ngClass]="{'is-invalid': longitude.invalid && (longitude.touched || longitude.dirty)}" step="0.01" class="form-control" name="longitude" [(ngModel)]="long" placeholder="Longitude" #longitude="ngModel" required>
+      </div>
+      <ng-container *ngIf="longitude.invalid && (longitude.touched || longitude.dirty)">
+        <div class="text-danger" *ngIf="longitude.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+        <div class="text-danger" *ngIf="longitude.errors?.number"><i class="fa fa-exclamation-circle"></i> Giá trị không hợp lệ!</div>
+      </ng-container>
+    </div>
+  </form>
+  <!-- <div class="container">
+    
+  </div> -->
+  <div class="container" id="alertDiv">
+    <ngb-alert *ngIf="showAlert" [type]="alertType" [dismissible]="false">
+      <div class="container">
+        <i class="nc-bell-55 nc-icon"></i>{{ alertMessage }}
+        <button type="button" name="button" class="close" (click)="closeAlert()">
+          <i class="nc-icon nc-simple-remove"></i>
+        </button>
+      </div>
+    </ngb-alert>
+  </div>
+
+</div>
+
+<div class="modal-footer">
+  <div class="left-side">
+      <button [disabled]="!loaded" type="button" class="btn btn-default btn-link" (click)="closeAlert('Close')">Hủy</button>
+  </div>
+  <div class="divider"></div>
+  <div class="right-side">
+      <button [disabled]="name.invalid || addr.invalid || des.invalid || latitude.invalid || longitude.invalid || !loaded" type="button" class="btn btn-danger btn-link" (click)="editCinema()">Cập nhật</button>
+  </div>
+</div>

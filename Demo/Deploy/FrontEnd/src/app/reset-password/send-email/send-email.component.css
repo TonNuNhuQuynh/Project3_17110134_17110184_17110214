@@ -1,0 +1,9 @@
+.text-light {
+    font-size: 13px;
+}
+.card-register {
+    min-height: 300px;
+}
+.card-register .title {
+    color: white;
+}

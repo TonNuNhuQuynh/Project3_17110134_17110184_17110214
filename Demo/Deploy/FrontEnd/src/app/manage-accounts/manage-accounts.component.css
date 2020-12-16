@@ -1,0 +1,59 @@
+#landing-wrapper {
+    background: linear-gradient(rgb(0, 0, 0, 0), rgb(0, 0, 0, 0.80)), url('/assets/img/banners/banner1.jpg');
+    color: white;
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    width: 100%;
+    /* min-height: 100vh; */
+}
+.page-description 
+{ 
+  width: 900px; 
+  height: 1.4em; 
+  word-wrap: break-word;
+}
+.tim-row {
+  padding-top: 40px;
+}
+.cut-text 
+{ 
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  white-space: nowrap;
+  max-width: 90%;
+}
+.username {
+  font-weight: 600;
+}
+.form-control {
+  border-color: black;
+  border-width: 1.2px;
+}
+.btn-block {
+  text-transform: none;
+  font-weight: normal;
+}
+.dropdown-menu {
+  overflow-y: auto; 
+  max-height: 320px;
+  background-color: white;
+}
+
+.dropdown-text {
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  white-space: nowrap;
+}
+/* #overlap {
+  position: relative;
+  z-index: -1;
+} */
+.fixed-section
+{
+  z-index: 1010 !important;
+  display: flex;
+  justify-content: space-between;
+}
+#newAdmin {
+ margin-top: 0px; 
+}

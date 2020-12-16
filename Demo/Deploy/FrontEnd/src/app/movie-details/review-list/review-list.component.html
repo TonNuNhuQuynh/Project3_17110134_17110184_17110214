@@ -1,0 +1,122 @@
+<div class="container mt-4">
+    <div class="row">
+        <!-- Chưa tới ngày Review -->
+        <ng-container *ngIf="!checkTime()">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body text-center text-muted">
+                        <p class="h1 summary-rating-percentage"><i class="far fa-chart-bar"></i></p>
+                        <p class="mb-0">Đánh giá về <strong class="title">{{lstReview.title}}</strong> sẽ bắt đầu hiển thị từ ngày <strong>{{allowedDate | date:'dd/MM/yyyy'}}</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- Tới ngày hiện review -->
+        <ng-container *ngIf="checkTime()">
+
+            <ng-container *ngIf="!isLoaded">
+                <div class="col-12 text-center">
+                    <div class="spinner-border text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>  
+            </ng-container>
+
+            <!-- Tới ngày nhưng chưa có review nào -->
+            <ng-container *ngIf="isLoaded && lstReview.total == 0">
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body text-center text-muted">
+                            <p class="h2 summary-rating-percentage"><i class="fa fa-ban"></i></p>
+                            <p class="mb-0">Chưa có đánh giá cho <strong class="title">{{lstReview.title}}.</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <!-- Đã có review  -->
+            <ng-container *ngIf="isLoaded && lstReview.total > 0">
+                <!-- Overall -->
+                <div class="col-md-4 col-sm-12">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-md-12 col-sm col-4">
+                                <div class="py-5 py-sm-4 pl-3 pr-sm-4 text-center">
+                                    <p class="mb-3" [ngClass]="{'text-danger': lstReview.percent < 50, 'text-secondary': lstReview.percent >= 50 && lstReview.percent <= 75, 'text-success': lstReview.percent > 75}">
+                                        <span class="h1 summary-rating-percentage">{{lstReview.percent}}</span>
+                                        <span class="h2 font-weight-light">%</span>
+                                    </p>
+
+                                    <div class="progress progress-sm summary-rating-progress">
+                                        <div class="progress-bar" role="progressbar" style="width: 50%" [ngClass]="{'bg-danger': lstReview.percent < 50, 'bg-secondary': lstReview.percent >= 50 && lstReview.percent <= 75, 'bg-success': lstReview.percent > 75}" aria-valuenow="lstReview.percent" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm col-8">
+                                <div class="pt-3 p-sm-3 small">
+                                    <p class="text-justify">
+                                        <strong class="title">{{lstReview.title}}</strong> nhận được <span class="summary-rating-total font-weight-bold">{{lstReview.total}}</span>
+                                        lượt đánh giá với số điểm trung bình <span class="summary-rating-point font-weight-bold">{{movieAvgRating | number:'1.2-2'}}</span>,
+                                        cùng với số lượt thích là <span class="summary-rating-point font-weight-bold">{{lstReview.likes}}</span>.
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-sm-12">
+                    <h4 class="text-center mb-2">Các bài đánh giá <span class="text-secondary">({{lstReview.total}})</span></h4>
+                    <!-- Các bài đánh giá -->
+                    <div class="card card-sm article mb-3" *ngFor="let r of lstReview.reviews">
+                        <div class="card-body">
+                            <!-- Ảnh đại diện -->
+                            <div class="mb-3">
+                                <div class="row align-items-center">
+                                    <!-- Avatar -->
+                                    <div class="col-auto">
+                                        <a class="avatar avatar-verified">
+                                            <img *ngIf="r.image != null && r.image != ''" class="img-circle img-no-padding img-responsive" [src]="r.image">
+                                            <img *ngIf="r.image == null || r.image == ''" class="img-circle img-no-padding img-responsive" src="./assets/img/user-default.png">
+                                        </a>
+                                    </div>
+                                    <!-- Username vs Time -->
+                                    <div class="col ml-n2">
+                                        <p class="card-title mb-1">{{r.username}} <span><i class="fa fa-star text-warning"></i> {{r.ratings}}</span></p>
+                                        <p class="card-text small text-muted">{{r.createdDate | date:'dd/MM/yyyy'}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Content -->
+                            <div *ngIf="r.spoilers" class="text-center">
+                                <a class="spoiler-alert" (click)="r.spoilers = false">
+                                    <i class="fa fa-info-circle" aria-hidden="true"></i><br>Review có chứa tình tiết phim, cân nhắc trước khi đọc.<br>Nhấn để xem nội dung.
+                                </a>
+                            </div>
+                            <div *ngIf="!r.spoilers" class=""><div class="review-content text-justify" [innerHTML]="r.content"></div></div>
+                        </div>
+
+                        <!-- Button dislike vs like -->
+                        <div class="card-footer">
+                            <span *ngIf='r.likeCounts > 0' class="text-success mr-1" style="font-weight: 500;">+{{r.likeCounts}}</span>
+                            <button (click)="likeReview($event, r)" class="btn btn-sm btn-do-like btn-outline-dark" [ngClass]="{'text-success': isLiked(r.id) }"><i class="far fa-thumbs-up"></i></button>
+                            <button (click)="dislikeReview($event, r)" class="btn btn-sm btn-do-like btn-outline-dark" [ngClass]="{'text-danger': isDisliked(r.id) }"><i class="far fa-thumbs-down"></i></button>
+                            <span *ngIf='r.dislikeCounts > 0' class="text-danger ml-1" style="font-weight: 500;">+{{r.dislikeCounts}}</span>
+                        </div>
+                    </div>
+
+                    <button *ngIf="lstReview.reviews.length < lstReview.total" (click)="loadMore()" class="btn btn-light btn-block mb-3">Xem thêm</button>
+                    <div *ngIf="isLoadedMore" class="col-12 text-center">
+                        <div class="spinner-border text-danger" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+        </ng-container>
+
+    </div>
+</div>

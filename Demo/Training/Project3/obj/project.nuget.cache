@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zFbj1iWOryEOjJVGAq3JvGVjx+hF0Ip/xQ6ricG41lhugEw0G8ICrBsuUwRFurMgLLT+oR+i4nuW7IzpIlq82A==",
+  "dgSpecHash": "MuLEQKQzXQtMKNEWrVl0ubfQbBT86FAdogLkSU9k7dWDOS0YGrGqNIOLqScF4DYMlXKKt0XZDOQcOjyzW4LhsQ==",
   "success": true,
-  "projectFilePath": "D:\\2020_2021\\Project3\\Training\\Project3\\Project3.csproj",
+  "projectFilePath": "D:\\2020_2021\\Project3\\Project3_17110134_17110184_17110214\\Demo\\Training\\Project3\\Project3.csproj",
   "expectedPackageFiles": [
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.csharp\\4.3.0\\microsoft.csharp.4.3.0.nupkg.sha512",
     "C:\\Users\\LENOVO\\.nuget\\packages\\microsoft.ml\\1.5.2\\microsoft.ml.1.5.2.nupkg.sha512",

@@ -1,0 +1,41 @@
+<div class="ticking-content">
+    <div class="seat-selection">
+        <!-- Loại ghế -->
+        <div class="legend">
+            <div *ngFor="let type of roomInfo.seatTypes; let i = index">
+                <span class="seat-area-1" [style.background-color]='seatTypeColors[i]'></span><p>{{type.name}}</p>
+            </div>
+        </div>
+
+        <!-- Status -->
+        <div class="legend">
+            <div>
+                <span class="selected"></span><p>Ghế bạn chọn</p>
+            </div>
+            <div>
+                <span class="seat-area-1 taken"></span><p>Đã bán</p>
+            </div>
+        </div>
+
+        <span class="front">Màn hình</span>
+        
+        <div class="seats-wrapper">
+            <div class="seats-wrapper-row">
+                <!-- Row labels -->
+                <div class="seats seats-row">
+                    <div class="row-wrapper">
+                        <ul *ngFor="let row of rowTitles" class="seat-row"><li class="rowname wide">{{row}}</li></ul>
+                    </div>
+                </div>
+                <!-- Seats -->
+                <div class="seats seats-map">
+                    <div class="row-wrapper">
+                        <ul class="seat-row" *ngFor="let row of rowsInRoom">
+                            <li *ngFor="let seat of row.seats" [style.background-color]='seatTypeColors[seat.seatTypeId - 1]' [ngClass]="{ 'd-none': irRevelants.indexOf(seat.seatTypeId) > -1, 'taken': seat.status != 0, 'available': !selected(seat), 'selected': selected(seat) }" (click)="pickSeat(seat)" class="seat-area-1">{{seat.code}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,151 @@
+<div class="wrapper">
+    <div class="documentation page-header page-header-small" id="landing-wrapper">
+        <div class="filter"></div>
+        <div class="motto">
+            <br>
+            <h4 class="title-uppercase text-center">Quản lý chuỗi rạp chiếu phim</h4>
+            <br>
+            <h5 class="page-description text-center">Trang quản lý các chuỗi rạp chiếu phim của Super Admin</h5>
+            <br>
+        </div>
+    </div>
+    <div class="main">
+        <div class="section">
+            <div class="container">
+                <h2>Danh sách các chuỗi rạp và hệ thống rạp của từng chuỗi</h2>
+                <br> 
+                <div class="row tim-row">
+                    <!-- Filters -->
+                    <div class="col-lg-2 col-md-6">
+                        <div class="resize">
+                            <!-- Cinema chains -->
+                            <div ngbDropdown class="d-inline-block btn-block mb-2">
+                                <button class="btn btn-block form-control dropdown-text" id="dropdownMenu1" ngbDropdownToggle>{{dropdownTxt}}</button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu1" ngbDropdownMenu>
+                                    <a *ngFor="let c of cinemaChains" (click)="reset(c.id, c.name, true)" class="dropdown-item" style="display: flex;">
+                                        <img [src]="c.logo" alt="image" style="width: 30px; height: 30px;" class="img-circle img-no-padding img-responsive"><p style="margin-left: 10px;" class="cut-text">{{c.name}}</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <button id="newChain" [disabled]="!loaded" *ngIf="isPicked" (click)="addChain()" class="btn btn-success btn-block"><i class="fa fa-plus-circle"></i> Thêm chuỗi rạp</button>
+                        </div>
+                    </div>  
+                    <div class="col-lg-10 col-md-12">
+                        <!-- Chưa load xong -->
+                        <div *ngIf="!loaded" class="row">
+                            <div class="col-12 text-center">
+                                <div class="spinner-border text-danger" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>  
+                        </div>
+                        <!-- Loaded -->
+                        <div *ngIf="loaded" class="row">
+                            <!-- Cinema chains -->
+                            <div class="col-md-5 col-sm-12">
+                                <div *ngIf="cinemaChainsInDB.length > 0" class="card">
+                                    <!-- <div class="list-group" id="list-tab" role="tablist">
+                                        <a type="button" class="list-group-item list-group-item-action disabled"><b>Các chuỗi rạp trong hệ thống</b></a>
+                                        <a type="button" (click)="showChain(c.id)" *ngFor="let c of cinemaChainsInDB" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                            <p class="center"><img [src]="c.logo" alt="image" style="width: 40px; height: 40px;" class="img-circle img-no-padding img-responsive">     {{c.name}}</p>
+                                            <div>
+                                                <span class="label label-danger">{{c.cinemas.length}}</span>
+                                                <button (click)="deleteChain(c.id)" class="btn bg-transparent" style="border: none;">
+                                                    <span class="fa fa-trash fa-lg"></span>
+                                                </button>
+                                            </div>
+                                        </a>
+                                    </div> -->
+                                    <div class="list-group list-group-flush">
+                                        <!-- Header -->
+                                        <a class="list-group-item bg-light" data-toggle="collapse" href="#chains">
+                                            <div class="row align-items-center">
+                                                <div class="col">
+                                                    <h5 class="text-body mb-1 name">Các chuỗi rạp trong hệ thống</h5>
+                                                </div>
+                                                <div class="col-auto"><span class="text-muted h6"><i class="fa fa-chevron-right"></i></span></div>
+                                            </div>
+                                        </a>
+                                        <!-- Các chuỗi rạp -->
+                                        <a class="list-group collapse show" id="chains">
+                                            <a class="list-group-item showtime" *ngFor="let chain of cinemaChainsInDB" #chain name="{{chain.id}}" (click)="showChain(chain.id)">
+                                                <div class="row align-items-center">
+                                                    <!-- avatar của chuỗi rạp -->
+                                                    <div class="col-auto"><div class="avatar avatar-sm"><img [src]="chain.logo" class="img-circle img-no-padding img-responsive"></div></div>
+                                                    <!-- Tên chuỗi và số rạp toàn quốc -->
+                                                    <div class="col ml-n3">
+                                                        <a class="h4 mb-0 sub-name" [routerLink]="['/chain']" [queryParams]="{ chain: chain.id }">{{chain.name}}</a>
+                                                        <p class="small text-muted mb-0">{{chain.cinemas.length}} rạp</p>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <button (click)="deleteChain(chain.id)" class="btn bg-transparent" style="border: none; color: Dodgerblue;"><span class="fa fa-trash fa-lg"></span></button>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </a>
+                                    </div>
+                                </div>
+                                <ng-container *ngIf="cinemaChainsInDB.length == 0"><p>Chưa có chuỗi rạp nào trong hệ thống ..</p></ng-container>
+                            </div>
+                            <!-- Cinemas -->
+                            <div class="col-md-7 col-sm-12">
+                                <!-- <ngb-accordion *ngIf="cinemasInCities.length > 0" #acc="ngbAccordion" [activeIds]="activeIds">                          
+                                    <ngb-panel *ngFor="let c of cinemasInCities" id="{{c.city.id}}">
+                                      <ng-template ngbPanelTitle>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex"><b>{{c.city.name}}</b></div>
+                                            <span class="badge badge-pill badge-primary">{{c.cinemas.length}}</span>
+                                        </div>
+                                      </ng-template>
+                                      <ng-template ngbPanelContent>
+                                        <div class="list-group list-group-flush list" role="tablist" id="list-tab2">
+                                            <a type="button" *ngFor="let cinema of c.cinemas" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                                <p style="margin-top: 5px"><img [src]="cinema.logo" alt="image" style="width: 40px; height: 40px; margin-right: 10px;" class="img-circle img-no-padding img-responsive"><b>{{cinema.name}}</b></p>
+                                                <button (click)="editCinema(cinema.id)" class="btn bg-transparent" style="border: none;"><span class="fa fa-edit fa-lg" style="color: Dodgerblue;"></span></button>
+                                            </a>
+                                        </div>
+                                      </ng-template>
+                                    </ngb-panel>
+                                </ngb-accordion>                                   -->
+
+                                <div class="card" *ngIf="cinemasInCities.length > 0">
+                                    <div class="list-group list-group-flush">
+                                        <ng-container *ngFor="let c of cinemasInCities">
+                                            <!-- City -->
+                                            <a class="list-group-item bg-light" data-toggle="collapse" href="#city-{{c.city.id}}">
+                                                <div class="row align-items-center" style="flex: 1;">
+                                                    <div class="col">
+                                                        <div class="card-header-title text-body"><a class="name">{{c.city.name}}</a></div>
+                                                    </div>
+                                                    <div class="col-auto"><span class="badge badge-danger">{{c.cinemas.length}} rạp</span></div>
+                                                </div>
+                                            </a>
+                                            <!-- Các chuỗi rạp -->
+                                            <a class="list-group collapse show" id="city-{{c.city.id}}">
+                                                <a class="list-group-item showtime" *ngFor="let cinema of c.cinemas">
+                                                    <div class="row align-items-center">
+                                                        <!-- avatar của chuỗi rạp -->
+                                                        <div class="col-auto"><div class="avatar avatar-sm"><img [src]="cinema.logo" class="img-circle img-no-padding img-responsive"></div></div>
+                                                        <!-- Tên chuỗi và số rạp toàn quốc -->
+                                                        <div class="col ml-n3">
+                                                            <a [routerLink]="['/cinema']" [queryParams]="{ cinema: cinema.id }" class="h4 mb-0 sub-name">{{cinema.name}}</a>
+                                                            <p class="small text-muted mb-0">{{cinema.address}}</p>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button (click)="editCinema(cinema.id)" class="btn bg-transparent" style="border: none;"><span class="fa fa-edit" style="color: Dodgerblue;"></span></button>
+                                                            <button (click)="deleteCinema(cinema.id, cinema.cinemaChainId)" class="btn bg-transparent" style="border: none;"><span class="fa fa-remove" style="color: red;"></span></button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </a>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>       
+        </div>
+    </div>
+</div>

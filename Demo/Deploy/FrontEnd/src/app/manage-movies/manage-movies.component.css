@@ -1,0 +1,51 @@
+#landing-wrapper {
+  background: linear-gradient(rgb(0, 0, 0, 0), rgb(0, 0, 0, 0.80)), url('/assets/img/banners/banner1.jpg');
+  color: white;
+  background-repeat: no-repeat; 
+  background-size: cover; 
+  width: 100%;
+  min-height: 100vh;
+}
+.cut-text 
+{ 
+  width: 160px; 
+  height: 1.4em; 
+  word-wrap: break-word;
+  font-weight: 600;
+}
+.form-control {
+  border-color: black;
+  border-width: 1.2px;
+}
+.btn-block {
+  text-transform: none;
+  font-weight: normal;
+}
+.dropdown-menu {
+  overflow-y: auto; max-height: 320px;
+}
+.dropdown-text {
+  text-overflow: ellipsis;
+  overflow: hidden; 
+  white-space: nowrap;
+}
+.page-description 
+{ 
+  width: 100%; 
+  height: 1.4em; 
+  word-wrap: break-word;
+}
+.label{
+  font-size: 0.8em;
+}  
+.tim-row {
+  padding-top: 40px;
+}
+/* :host ::ng-deep select[name=table_length] {
+  border-color: black;
+  border-width: 1.2px;
+}
+:host ::ng-deep input[type=search] {
+  border-color: black;
+  border-width: 1.2px;
+} */

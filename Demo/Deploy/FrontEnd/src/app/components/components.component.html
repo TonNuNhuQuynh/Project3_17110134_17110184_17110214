@@ -1,0 +1,200 @@
+<div class="wrapper">
+    <ng-container *ngIf="!isLoaded">
+        <div id="loading" class="page-header section dark preloader" style="background-image: url('/assets/img/banners/home-banner.png');">
+            <div class="container">
+                <div class="text-center page-loader">
+                    <div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>
+                </div> 
+            </div>
+        </div>
+    </ng-container>
+    
+    <ng-container *ngIf="isLoaded">
+        <!-- Page header -->
+        <div class="page-header section-dark" id="background" (swipeleft)="swipe($event.type)" (swiperight)="swipe($event.type)">
+            <!-- Large Carousel -->
+            <ngb-carousel [showNavigationArrows]="false" [wrap]="true" #largeCarousel="ngbCarousel">
+                <ng-template *ngFor="let m of top4Movies" ngbSlide id="lg-slide-{{m.movie.id}}">
+                    <div class="bg-img-hero d-flex align-items-center min-vh-100" style="background-image: url('{{m.movie.backdrop}}');">
+                        <div class="container">
+                            <div class="mx-3 col-xl-6 px-0">
+                                <h2 class="text-danger"><a [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.movie.id }" class="title">{{m.movie.title}}</a></h2>
+                                <div class="mt-3">
+                                    <ul class="list-unstyled nav nav-meta nav-meta__white">
+                                        <li>{{m.movie.releaseDate | date:'yyyy'}}</li>
+                                        <li class="rating"><i class="fa fa-star"></i> {{m.ratings | number:'1.1-1'}}/10</li>
+                                        <li class="">{{m.movie.runtime}} phút</li>
+                                    </ul>
+                                </div>
+                                <div class="mt-3 d-md-flex">
+                                    <a [routerLink]="['/movie-details/reviews']" [queryParams]="{ movieId: m.movie.id }" class="btn btn-danger btn-round">Xem review</a>
+                                    <a *ngIf="m.movie.movieStatusId == 1" [routerLink]="['/movie-details/showtimes']" [queryParams]="{ movieId: m.movie.id }" class="btn btn-outline-danger btn-round">Mua vé</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-carousel>
+            <!-- Top 4 rated -->
+            <div class="d-none d-xl-flex position-xl-absolute col-xl-6 mr-3 right-0 bottom-0 mb-xl-12 slider-m-0 flex-column">          
+                <h4 class="text-white"><strong>#Top rated</strong></h4>
+                <div class="slick-list draggable">
+                    <div class="slick-track" style="opacity: 1; width: 616px; transform: translate3d(0px, 0px, 0px);">
+                        <div *ngFor="let m of top4Movies" (click)="pickSlide(m.movie.id)" class="my-1d slick-slide slick-current slick-active" style="cursor: pointer; width: 67.016px; height: auto;" >
+                            <img class="img-fluid" style="width:190px; height:160px;" [src]="m.movie.poster == null || m.movie.poster == ''? './assets/img/no-poster.jpg': m.movie.poster" alt="Image Description">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white">
+            <!-- Phim yêu thích trong tuần -->
+            <div class="container">
+                <div class="pt-2 pb-4">
+                    <h3 class="text-danger"><strong>Thịnh hành</strong></h3>
+                    <p class="text-muted h6 mb-2">Các phim được yêu thích trong tuần</p>
+                    <!-- Loading -->
+                    <div class="row" *ngIf="!isLoaded1">
+                        <div class="col-12 text-center"><div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div></div> 
+                    </div>
+                    <!-- Weekly favorite movies -->
+                    <owl-carousel-o *ngIf="isLoaded1" [options]="customOptions">
+                        <ng-container *ngFor="let m of weeklyFavoriteMovies">
+                            <ng-template carouselSlide id="owl-slide-{{m.id}}">
+                                <div class="col item" style="width: auto; display: inline-block;">
+                                    <div class="mb-4">
+                                        <a class="d-block position-relative btn-do-movie-like" [ngClass]="{'liked': auth.activityStorage.movieLikeIds.indexOf(m.id) > -1}">
+                                            <i class="fa fa-heart play-icon" (click)="likeMovie($event, m.id)" [ngClass]="{'liked': auth.activityStorage.movieLikeIds.indexOf(m.id) > -1}"></i>
+                                            <img [src]="m.poster" class="img-fluid img-rounded mb-2 border">
+                                            <p class="mb-0 text-truncate" placement="top" ngbTooltip="{{m.title}}"><a style="font-weight: 600;" [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.id }">{{m.title}}</a></p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ng-container>
+                    </owl-carousel-o>
+                </div>
+            </div>
+            <hr>
+
+            <!-- Trailer phim mới nhất -->
+            <div class="container w3l-main-slider">
+                <div class="pt-2 pb-4">
+                    <h3 class="text-danger"><strong>Trailer phim mới</strong></h3>
+                    <p class="text-muted h6 mb-2">Xem trailer của các bộ phim mới nhất</p>
+                    <div class="row" *ngIf="!isLoaded2">
+                        <div class="col-12 text-center"><div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div></div> 
+                    </div>
+
+                    <owl-carousel-o *ngIf="isLoaded2" [options]="customOptions3">
+                        <ng-template carouselSlide *ngFor="let m of latestMovies">
+                            <div class="slider-info banner-view bg bg2" style="background: url({{m.backdrop}}) no-repeat center; background-size: cover;">
+                                <div class="banner-info">
+                                    <h3 class="text-white"><a [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.id }" class="title">{{m.title}}</a></h3>
+                                    <p class="text-light mb-2">{{m.releaseDate | date:'dd/MM/yyyy'}}</p>
+                                    <a href="javascript:void(0)" class="popup-with-zoom-anim play-view1">
+                                        <span (click)="openTrailerModal(m.trailer)" class="video-play-icon"><span class="fa fa-play"></span></span>
+                                        <h6 class="text-danger" (click)="openTrailerModal(m.trailer)">Xem Trailer</h6>
+                                    </a>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </owl-carousel-o>
+                </div>
+            </div>
+            <hr>
+
+            <!-- Phim đang chiếu rạp -->
+            <div class="container">
+                <div class="pt-2 pb-4">
+                    <h3 class="text-danger mb-2"><a [routerLink]="['/movie/now']" class="mr-4">Đang chiếu</a> | <a [routerLink]="['/movie/upcomings']" title="Sắp chiếu" class="text-muted ml-4">Sắp chiếu</a></h3>
+                    <div class="row" *ngIf="!isLoaded3">
+                        <div class="col-12 text-center"><div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div></div> 
+                    </div>
+                    <owl-carousel-o *ngIf="isLoaded3" [options]="customOptions2">
+                        <ng-template carouselSlide *ngFor="let m of nowMovies">
+                            <div class="card card-xs">
+                                <div class="btn-group btn-actions">
+                                    <a (click)="likeMovie($event, m.movie.id)" [ngClass]="{'liked': auth.activityStorage.movieLikeIds.indexOf(m.movie.id) > -1}" class="btn btn-light btn-do-movie-like"><i class="fa fa-heart"></i></a>
+                                    <a (click)="rateMovie($event, m.movie.id)" class="btn btn-light btn-do-movie-rate" [ngClass]="{'rated': auth.activityStorage.rateIds.indexOf(m.movie.id) > -1}"><i class="fa fa-star"></i></a>
+                                </div>
+                                <a [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.movie.id }">
+                                    <img *ngIf="m.movie.poster != null" class="card-img-top embed-responsive-item" [src]="m.movie.poster" alt="Card image cap">
+                                    <img *ngIf="!m.movie.poster" class="card-img-top embed-responsive-item" src="./assets/img/no-poster.jpg" alt="Card image cap">
+                                </a>
+                                <div class="card-body border-top">
+                                    <h3 class="text-truncate h4 mb-1" placement="top" ngbTooltip="{{m.movie.title}}" container="body"><a [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.movie.id }"> {{m.movie.title}}</a></h3>
+                                    <div class="row no-gutters small">
+                                        <div class="col text-muted">{{m.movie.releaseDate | date : 'dd/MM'}}</div>
+                                        <div *ngIf="m.ratings > 0" class="col text-right ratings">
+                                            <a class="text-muted" [ngClass]="{'text-success': m.ratings >= 7.5, 'text-danger': m.ratings <= 5}"><i class="fa fa-star"></i> {{m.ratings | number:'1.1-1'}}/10</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </owl-carousel-o>
+                </div>
+            </div>
+            <hr>
+
+            <!-- Gợi ý phim cho bạn -->
+            <div class="container">
+                <h3 class="text-danger"><strong style="font-weight: 500;">Gợi ý cho bạn</strong></h3>
+                <p class="text-muted h6 mb-2">Gợi ý dựa trên các phim bạn đã đánh giá</p>
+
+                <div *ngIf="auth.currentAccountValue == null" style="display:block" class="empty text-center page-loader">
+                    <a ><img src="assets/img/logo.png" /></a>
+                    <p class="mt-2 h5 text-danger"><strong>Đăng nhập để truy cập tủ phim</strong></p>
+                    <p class="h6 text-muted">Hãy đánh giá phim để chúng tôi có thể gợi ý cho bạn</p>
+                    <br>
+                    <button (click)="openLoginModal()" class="btn btn-outline-danger btn-round">Đăng nhập</button>
+                    <br>
+                </div>
+                
+                <ng-container *ngIf="auth.currentAccountValue != null">
+                    <div class="row" *ngIf="!isLoaded4">
+                        <br>
+                        <div class="col-12 text-center"><div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div></div> 
+                    </div>
+
+                    <div *ngIf="isLoaded4 && recommends.length < 6" style="display:block" class="empty text-center page-loader">
+                        <a ><img src="assets/img/logo.png" /></a>
+                        <p class="mt-2 h5 text-danger"><strong>Đã đăng nhập nhưng chưa đánh giá</strong></p>
+                        <p class="h6 text-muted">Hãy một đánh giá phim nào đó để chúng tôi có thể gợi ý cho bạn</p>
+                        <br>
+                    </div>
+    
+                    <owl-carousel-o *ngIf="isLoaded4 && recommends.length >= 6" [options]="customOptions2">
+                        <ng-template carouselSlide *ngFor="let m of recommends">
+                            <div class="card card-xs">
+                                <div class="btn-group btn-actions">
+                                    <a (click)="likeMovie($event, m.movie.id)" [ngClass]="{'liked': auth.activityStorage.movieLikeIds.indexOf(m.movie.id) > -1}" class="btn btn-light btn-do-movie-like"><i class="fa fa-heart"></i></a>
+                                    <a (click)="rateMovie($event, m.movie.id)" class="btn btn-light btn-do-movie-rate" [ngClass]="{'rated': auth.activityStorage.rateIds.indexOf(m.movie.id) > -1}"><i class="fa fa-star"></i></a>
+                                </div>
+                                <a [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.movie.id }">
+                                    <img *ngIf="m.movie.poster != null" class="card-img-top embed-responsive-item" [src]="m.movie.poster" alt="Card image cap">
+                                    <img *ngIf="!m.movie.poster" class="card-img-top embed-responsive-item" src="./assets/img/no-poster.jpg" alt="Card image cap">
+                                </a>
+                                <div class="card-body border-top">
+                                    <h3 class="text-truncate h4 mb-1" placement="right" ngbTooltip="{{m.movie.title}}" container="body"><a [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.movie.id }"> {{m.movie.title}}</a></h3>
+                                    <div class="row no-gutters small">
+                                        <div class="col text-muted">{{m.movie.releaseDate | date : 'dd/MM'}}</div>
+                                        <div *ngIf="m.ratings > 0" class="col text-right ratings">
+                                            <a class="text-muted" [ngClass]="{'text-success': m.ratings >= 7.5, 'text-danger': m.ratings <= 5}"><i class="fa fa-star"></i> {{m.ratings | number:'1.1-1'}}/10</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </owl-carousel-o>
+                </ng-container>      
+            </div>
+            
+            <br>
+            <br>
+        </div>
+    </ng-container>
+
+</div>

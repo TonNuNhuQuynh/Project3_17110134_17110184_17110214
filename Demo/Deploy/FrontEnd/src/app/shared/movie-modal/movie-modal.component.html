@@ -1,0 +1,170 @@
+<div class="modal-header">
+    <h5 class="modal-title text-center text-danger" style="font-weight: bold;">{{name}}</h5>
+    <button type="button" [disabled]="!loaded" class="close" aria-label="Close" (click)="closeAlert()">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body" style="overflow-y: auto; max-height: 500px;"> 
+
+  <form class="form-horizontal" name="form" #form="ngForm" ng-submit="contactForm()">
+    <!-- Original Title -->
+    <div class="col-auto mb-2 mt-2">
+        <div class="input-group" [ngClass]="{'error': original.invalid && (original.touched || original.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Tựa gốc</div></div>
+          <input type="text" #original="ngModel" required [ngClass]="{'is-invalid': original.invalid && (original.touched || original.dirty)}" class="form-control" name="original" [(ngModel)]="movieInDB.originalTitle" placeholder="Original title">
+        </div>
+        <div class="text-danger" *ngIf="original.errors?.required && (original.touched || original.dirty)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+    </div>
+
+    <!-- Vietnamese Title -->
+    <div class="col-auto mb-2">
+        <div class="input-group" [ngClass]="{'error': title.invalid && (title.touched || title.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Tựa Việt</div></div>
+          <input type="text" #title="ngModel" required [ngClass]="{'is-invalid': title.invalid && (title.touched || title.dirty)}" name="vietnamese" [(ngModel)]="movieInDB.title" class="form-control" placeholder="Vietnamese title">
+        </div>
+        <div class="text-danger" *ngIf="title.errors?.required && (title.touched || title.dirty)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+    </div>
+
+    <!-- Plot -->
+    <div class="col-auto mb-2">
+        <div class="input-group" [ngClass]="{'error': plot.invalid && (plot.touched || plot.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Nội dung</div></div>
+          <textarea required #plot="ngModel" [ngClass]="{'is-invalid': plot.invalid && (plot.touched || plot.dirty)}" name="plot" [(ngModel)]="movieInDB.plot" class="form-control" placeholder="Plot" rows="2"></textarea>
+        </div>
+        <div class="text-danger" *ngIf="plot.errors?.required && (plot.touched || plot.dirty)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+    </div>
+
+    <!-- Directors -->
+    <div class="col-auto mb-2">
+        <div class="input-group">
+          <div class="input-group-prepend"><div class="input-group-text">Đạo diễn</div></div>
+          <input type="text" class="form-control" name="directors" [(ngModel)]="movieInDB.directors" placeholder="Directors">
+        </div>
+    </div>
+
+    <!-- Producers -->
+    <div class="col-auto mb-2">
+        <div class="input-group">
+          <div class="input-group-prepend"><div class="input-group-text">Sản xuất</div></div>
+          <input type="text" class="form-control" name="producers" [(ngModel)]="movieInDB.producers" placeholder="Producers">
+        </div>
+    </div>
+
+    <!-- Release date -->
+    <div class="col-auto mb-2">
+        <div class="input-group" [ngClass]="{'error': date.invalid && (date.touched || date.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Ngày chiếu</div></div>
+          <input #date="ngModel" required (ngModelChange)="dateChange($event)" [ngClass]="{'is-invalid': date.invalid && (date.touched || date.dirty)}" class="form-control" [(ngModel)]="releaseDateNgb" placement="bottom" placeholder="Release date" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" (focus)="focus=true" (blur)="focus=false" />
+        </div>
+        <ng-container *ngIf="date.invalid && (date.touched || date.dirty)">
+          <div class="text-danger" *ngIf="date.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+          <div class="text-danger" *ngIf="invalidDate"><i class="fa fa-exclamation-circle"></i> Giá trị không hợp lệ!</div>
+        </ng-container>
+    </div>
+
+    <!-- Runtime -->
+    <div class="col-auto mb-2">
+        <div class="input-group" [ngClass]="{'error': time.invalid && (time.touched || time.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Thời gian</div></div>
+          <input type="text" #time="ngModel" pattern="[0-9]{1,4}" required [ngClass]="{'is-invalid': time.invalid && (time.touched || time.dirty)}" class="form-control" name="runtime" [(ngModel)]="movieInDB.runtime" placeholder="Runtime">
+        </div>
+        <ng-container *ngIf="time.invalid && (time.touched || time.dirty)">
+          <div class="text-danger" *ngIf="time.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+          <div class="text-danger" *ngIf="time.errors?.pattern"><i class="fa fa-exclamation-circle"></i> Giá trị không hợp lệ!</div>
+        </ng-container>
+    </div>
+
+    <!-- Age rating -->
+    <div class="col-auto mb-2">
+        <div class="input-group">
+          <div class="input-group-prepend"><div class="input-group-text">Độ tuổi</div></div>
+          <input type="text" class="form-control" name="age" [(ngModel)]="movieInDB.ageRating"  placeholder="Age rating">
+        </div>
+    </div>
+
+    <!-- Poster -->
+    <div class="col-auto mb-2">
+        <div class="input-group" [ngClass]="{'error': poster.invalid && (poster.touched || poster.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Poster</div></div>
+          <input type="url" #poster="ngModel" [ngClass]="{'is-invalid': poster.invalid && (poster.touched || poster.dirty)}" pattern="(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?" class="form-control" name="poster" [(ngModel)]="movieInDB.poster" placeholder="Poster">
+        </div>
+        <div class="text-danger" *ngIf="poster.errors?.pattern && (poster.touched || poster.dirty)"><i class="fa fa-exclamation-circle"></i> Url không hợp lệ!</div>
+    </div>
+
+    <!-- Backdrop -->
+    <div class="col-auto mb-2">
+        <div class="input-group" [ngClass]="{'error': backdrop.invalid && (backdrop.touched || backdrop.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Backdrop</div></div>
+          <input type="url" name="backdrop" pattern="(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?" #backdrop="ngModel" [ngClass]="{'is-invalid': backdrop.invalid && (backdrop.touched || backdrop.dirty)}" [(ngModel)]="movieInDB.backdrop" class="form-control"  placeholder="Backdrop">
+        </div>
+        <div class="text-danger" *ngIf="backdrop.errors?.pattern && (backdrop.touched || backdrop.dirty)"><i class="fa fa-exclamation-circle"></i> Url không hợp lệ!</div>
+    </div>
+
+    <!-- Trailer -->
+    <div class="col-auto mb-2">
+        <div class="input-group" [ngClass]="{'error': trailer.invalid && (trailer.touched || trailer.dirty)}">
+          <div class="input-group-prepend"><div class="input-group-text">Trailer</div></div>
+          <input type="url" name="trailer" #trailer="ngModel" [ngClass]="{'is-invalid': trailer.invalid && (trailer.touched || trailer.dirty)}" 
+          pattern="^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/))((\w|-){11})(\?\S*)?$" [(ngModel)]="movieInDB.trailer" class="form-control" placeholder="Trailer">
+        </div>
+        <div class="text-danger" *ngIf="trailer.errors?.pattern && (trailer.touched || trailer.dirty)"><i class="fa fa-exclamation-circle"></i> Url bắt đầu với https://youtube.com/embed/</div>
+    </div>
+
+    <!-- Language -->
+    <div class="col-auto mb-2">
+      <div class="input-group" [ngClass]="{'error': movieInDB.languageId == 0 && (language.touched || language.dirty)}">
+        <div class="input-group-prepend"><div class="input-group-text">Ngôn ngữ</div></div>
+        <select name="language" #language="ngModel" required [ngClass]="{'is-invalid': movieInDB.languageId == 0 && (language.touched || language.dirty)}" [(ngModel)]="movieInDB.languageId" class="form-control">
+          <option *ngFor="let l of languages" [ngValue]="l.id">{{l.name}}</option>
+        </select>
+      </div>
+      <div class="text-danger" *ngIf="movieInDB.languageId == 0 && (language.touched || language.dirty)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+    </div>
+
+    <!-- Status -->
+    <div class="col-auto mb-2">
+      <div class="input-group" [ngClass]="{'error': movieInDB.movieStatusId == 0 && status.touched }">
+        <div class="input-group-prepend"><div class="input-group-text">Trạng thái phim</div></div>
+        <select name="status" #status="ngModel" required [ngClass]="{'is-invalid': movieInDB.movieStatusId == 0 && status.touched}" [(ngModel)]="movieInDB.movieStatusId" class="form-control" >
+          <option *ngFor="let s of statuses" [ngValue]="s.id">{{s.name}}</option>
+        </select>
+      </div>
+      <div class="text-danger" *ngIf="movieInDB.movieStatusId == 0 && status.touched"><i class="fa fa-exclamation-circle"></i>Không được bỏ trống trường này</div>
+    </div>
+
+    <!-- Genres -->
+    <div class="col-auto mb-2">
+      <div class="input-group" [ngClass]="{'error':  multiselect.errors?.required && (multiselect.touched || multiselect.dirty)}">
+        <div class="input-group-prepend"><div class="input-group-text">Thể loại</div></div>
+        <ejs-multiselect required [ngClass]="{'is-invalid': multiselect.errors?.required && (multiselect.touched || multiselect.dirty)}" #multiselect="ngModel" [(value)]='movieInDB.genres' [(ngModel)]="movieInDB.genres" name="multiple-select" class="form-control" [mode]='mode' [selectAllText]='selectAllText' showSelectAll=true [dataSource]='genres' [fields]='localFields' placeholder='Genres'></ejs-multiselect> 
+      </div>
+      <div class="text-danger" *ngIf="multiselect.errors?.required && (multiselect.touched || multiselect.dirty)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+    </div>
+
+  </form>
+  <!-- <div class="container">
+    
+  </div> -->
+  <div class="container" id="alertDiv">
+    <ngb-alert *ngIf="showAlert" [type]="alertType" [dismissible]="false">
+      <div class="container">
+        <i class="nc-bell-55 nc-icon"></i>{{ alertMessage }}
+        <button type="button" name="button" class="close" (click)="closeAlert()">
+            <i class="nc-icon nc-simple-remove"></i>
+        </button>
+      </div>
+    </ngb-alert>
+  </div>
+
+</div>
+
+<div class="modal-footer">
+  <div class="left-side">
+      <button [disabled]="!loaded" type="button" class="btn btn-default btn-link" (click)="closeAlert()">Hủy</button>
+  </div>
+  <div class="divider"></div>
+  <div class="right-side">
+      <button [disabled]="original.invalid || title.invalid || plot.invalid || date.invalid || time.invalid || movieInDB.languageId == 0 || movieInDB.movieStatusId == 0 || movieInDB.genres.length == 0 || trailer.invalid || !loaded" type="button" class="btn btn-danger btn-link" (click)="saveMovie()">Lưu</button>
+  </div>
+</div>

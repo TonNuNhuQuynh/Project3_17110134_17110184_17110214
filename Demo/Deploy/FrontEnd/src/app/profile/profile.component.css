@@ -1,0 +1,68 @@
+.form-control[readonly] {
+    background-color: #d7e8fb;
+}
+.owner .name h4 {
+    margin-top: 0px;
+    font-weight: 600;
+}
+.title {
+    margin-bottom: 15px;
+}
+#landing-wrapper {
+    background: linear-gradient(rgb(0, 0, 0, 0), rgb(0, 0, 0, 0.80)), url('/assets/img/banners/banner1.jpg');
+    color: white;
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    width: 100%;
+    min-height: 100vh;
+  }
+label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: .35em;
+}
+:host ::ng-deep .e-control-wrapper {
+    font-family: Montserrat;
+}
+
+/* Nav */
+:host ::ng-deep .nav-tabs 
+{
+  font-size: 14.5px;
+  margin-bottom: 0px;
+}
+:host ::ng-deep .nav-tabs .nav-link:not(.active) {
+  color: #95aac9;
+}
+:host ::ng-deep .nav-tabs .nav-link {
+  padding: 1rem 0;
+  border-bottom: 1px solid transparent;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+}
+:host ::ng-deep .nav-tabs .nav-link {
+  border: 1px solid transparent;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+:host ::ng-deep .nav-tabs .nav-item {
+  margin-left: .75rem;
+  margin-right: .75rem;
+}
+:host ::ng-deep .nav-tabs .nav-link.active,  :host ::ng-deep .nav-tabs .nav-link.active :focus{
+  color: #12263f !important;
+  background-color: transparent !important;
+  border: 1px solid !important;
+  font-weight: 500 !important;
+  border-color: transparent transparent #2b76da !important;
+}
+:host ::ng-deep .nav-tabs .nav-item .nav-link.active:after, :host ::ng-deep .nav-tabs .nav-item .nav-link.active:hover:after, :host ::ng-deep .nav-tabs .nav-item .nav-link.active:focus:after 
+{ 
+  content: none;
+  
+}
+:host ::ng-deep .nav-tabs .nav-item .nav-link.active:before, :host ::ng-deep .nav-tabs .nav-item .nav-link.active:hover:before, :host ::ng-deep .nav-tabs .nav-item .nav-link.active:focus:before
+{
+  content: none;
+}

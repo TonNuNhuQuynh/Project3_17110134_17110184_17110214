@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <h5 class="modal-title text-center text-danger" style="font-weight: bold;">Rạp phim chưa cập nhật</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeAlert('Close')">
+    <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body pt-0 pb-0 pl-0 pr-0">
+    <div class="card mb-0 mt-2">
+        <!-- <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="row align-items-center">
+                        <div class="col-auto pr-0"><span class="fa fa-search text-muted"></span></div>
+                        <div class="col">
+                            <input (keyup)="searchCinemas()" [(ngModel)]="key" type="search" class="form-control form-control-flush" placeholder="Tìm rạp tại {{cityName}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto"></div>
+            </div>
+        </div> -->
+
+
+
+        <div *ngFor="let cinema of cinemas" class="row align-items-center pl-4 pr-4 pb-3">
+            <!-- Avatar -->
+            <div class="col-auto"><a class="avatar"><img [src]="cinema.logo" class="img-circle img-no-padding img-responsive"></a></div>
+            <div class="col ml-n2">
+                <!-- Title -->
+                <h4 class="mb-1 sub-name"><a>{{cinema.name}}</a></h4>
+                <!-- Address -->
+                <p class="card-text small text-muted address mb-0">{{cinema.address}}</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal-footer">
+    <div class="left-side"><button type="button" class="btn btn-default btn-link" (click)="closeAlert('Close')">Hủy</button></div>
+    <div class="divider"></div>
+    <div class="right-side"><button class="btn btn-danger btn-link" (click)="closeAlert('Save')">Lưu tất cả</button></div>
+</div>

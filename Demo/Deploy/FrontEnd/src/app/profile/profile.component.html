@@ -1,0 +1,167 @@
+<div class="wrapper">
+    <div class="page-header page-header-xs" data-parallax="true" id="landing-wrapper">
+        <div class="filter"></div>
+        <div class="motto">
+            <br>
+            <h4 class="title-uppercase text-center">Tài khoản người dùng</h4>
+            <br>
+        </div>
+    </div>
+    <div class="section profile-content">
+        <div class="container">
+            <div class="owner">
+                <div class="avatar">
+                    <img [src]="account.user.image == null? './assets/img/user-default.png': account.user.image" style="height: 155px; width: 155px;" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                </div>
+                <div class="name">
+                    <h4 class="title text-danger">{{account.username}}</h4>
+                    <h6 class="description">{{account.email}}</h6>
+                </div>
+            </div>
+            <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                    <ngb-tabset (tabChange)="tabChange()" [justify]="'center'" [destroyOnHide]="false" >
+
+                        <ngb-tab title="Thông tin cá nhân">
+
+                            <ng-template ngbTabContent >
+                                <div class="row following mt-4" id="follows">
+                                    <div class="col-lg-8 col-md-10 col-sm-12 col-12 ml-auto mr-auto">
+                                        <!-- Email vs username -->
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 ml-auto mr-auto mb-4">
+                                                <label style="float: left;">Tên đăng nhập</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-user"></i></div></div>
+                                                    <input readonly type="text" class="form-control" [(ngModel)]="account.username" name="username" placeholder="Username" #username="ngModel">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 ml-auto mr-auto mb-4">
+                                                <label style="float: left;">Email</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-envelope"></i></div></div>
+                                                    <input readonly #e="ngModel" type="email" [(ngModel)]="account.email" class="form-control" name="email" placeholder="Email">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Fullname vs phone -->
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 ml-auto mr-auto mb-4">
+                                                <label style="float: left;">Họ và tên</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-id-card"></i></div></div>
+                                                    <input type="text" [(ngModel)]="account.user.fullname" class="form-control" name="name" placeholder="Họ và tên" #name="ngModel">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 ml-auto mr-auto mb-4">
+                                                <label style="float: left;">Số điện thoại</label>
+                                                <div class="input-group" [ngClass]="{'error': phone.errors?.pattern && (phone.dirty || phone.touched)}">
+                                                    <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-phone"></i></div></div>
+                                                    <input [ngClass]="{'is-invalid': phone.errors?.pattern && (phone.dirty || phone.touched)}" type="tel" pattern="[0-9 ]{10}" [(ngModel)]="account.phone" class="form-control" name="phone" placeholder="Điện thoại" #phone="ngModel">
+                                                </div>
+                                                <div class="text-danger" *ngIf="(phone.errors?.pattern && (phone.dirty || phone.touched))"><i class="fa fa-exclamation-circle"></i> Số điện thoại không hợp lệ!</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Image vs Area -->
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 ml-auto mr-auto mb-4">
+                                                <label style="float: left;">Ảnh đại diện</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-image"></i></div></div>
+                                                    <div class="custom-file">
+                                                        <input type="file" (change)="pickFile($event.target.files)" class="custom-file-input" id="customFile">
+                                                        <label class="custom-file-label text-truncate" [style.color]="color" style="text-align: left; margin-bottom: 0px; line-height: 1.85em;" for="customFile">{{fileName}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="text-danger" *ngIf="formatError"><i class="fa fa-exclamation-circle"></i> Định dạng file hợp lệ: .png, .jpg</div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 ml-auto mr-auto mb-4">
+                                                <label style="float: left;">Tỉnh thành</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-address-book"></i></div></div>
+                                                    <ejs-dropdownlist class="form-control" [dataSource]='cities' [fields]='localFields' [(value)]='account.user.area' placeholder='Chọn tỉnh thành' [allowFiltering]='true'></ejs-dropdownlist>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Save button -->
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-12 ml-auto mr-auto mb-4">
+                                                <button [disabled]="formatError || phone.errors?.pattern || !isLoaded" (click)="putUser()" class="btn btn-info btn-round"><i class="fa fa-save"></i> Cập nhật</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                        <ngb-tab title="Đổi mật khẩu">
+                            <ng-template ngbTabContent>
+                                <div class="row following mt-4" id="follows">
+                                    <div class="col-lg-8 col-md-10 col-sm-12 col-12 ml-auto mr-auto">
+                                        <form #form="ngForm">
+
+                                            <!-- Current vs new pass -->
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 ml-auto mr-auto mb-4">
+                                                    <label style="float: left;">Mật khẩu hiện tại</label>
+                                                    <div class="input-group" [ngClass]="{'error': showAlert || (password.errors?.required && (password.touched || password.dirty))}">
+                                                        <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-key"></i></div></div>
+                                                        <input type="password" [ngClass]="{'is-invalid': showAlert || (password.errors?.required && (password.touched || password.dirty))}" required class="form-control" [(ngModel)]="currentPass" name="pass" placeholder="Mật khẩu hiện tại" #password="ngModel">
+                                                    </div>
+                                                    <div class="text-danger" *ngIf="password.errors?.required && (password.touched || password.dirty)"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 ml-auto mr-auto mb-4">
+                                                    <label style="float: left;">Mật khẩu mới</label>
+                                                    <div class="input-group" [ngClass]="{'error': new.invalid && (new.touched || new.dirty), 'valid': !new.invalid}">
+                                                        <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-unlock-alt" aria-hidden="true"></i></div></div>
+                                                        <input minlength="6" maxlength="15" [ngClass]="{'is-invalid': new.invalid && (new.touched || new.dirty), 'is-valid': !new.invalid}" required type="password" [(ngModel)]="newPass" class="form-control" name="newPass" placeholder="Mật khẩu mới" #new="ngModel">
+                                                    </div>
+                                                    <ng-container *ngIf="new.invalid && (new.touched || new.dirty)">
+                                                        <div class="text-danger" *ngIf="new.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+                                                        <div class="text-danger" *ngIf="new.errors?.minlength || new.errors?.maxlength"><i class="fa fa-exclamation-circle"></i> Mật khẩu phải từ 6 - 15 kí tự!</div>
+                                                    </ng-container>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 mr-auto mb-4">
+                                                    <label style="float: left;">Xác nhận mật khẩu</label>
+                                                    <div class="input-group" [ngClass]="{'error': (confirm.invalid || confirmPass != newPass) && (confirm.touched || confirm.dirty), 'valid': confirmPass == newPass && confirmPass != ''}">
+                                                        <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-check-circle"></i></div></div>
+                                                        <input [ngClass]="{'is-invalid': (confirm.invalid || confirmPass != newPass) && (confirm.touched || confirm.dirty), 'is-valid': confirmPass == newPass && confirmPass != ''}" required type="password" [(ngModel)]="confirmPass" class="form-control" name="name" placeholder="Xác nhận mật khẩu" #confirm="ngModel">
+                                                    </div>
+                                                    <ng-container *ngIf="(confirm.invalid || confirmPass != newPass) && (confirm.touched || confirm.dirty)">
+                                                        <div class="text-danger" *ngIf="confirm.errors?.required && confirm.touched"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này!</div>
+                                                        <div class="text-danger" *ngIf="confirmPass != '' && confirmPass != newPass"><i class="fa fa-exclamation-circle"></i> Mật khẩu không trùng khớp!</div>
+                                                    </ng-container>
+                                                </div>
+
+                                                <div class="col-12 ml-auto mr-auto mb-4" id="div">
+                                                    <ngb-alert *ngIf="showAlert" type="danger" [dismissible]="true">
+                                                      <div class="container"><i class="nc-bell-55 nc-icon"></i> Mật khẩu hiện tại không đúng!</div>
+                                                    </ngb-alert>
+                                                </div>
+
+                                            </div>
+
+                                            <!-- Save button -->
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-12 ml-auto mr-auto mb-4">
+                                                    <button [disabled]="password.invalid || new.invalid || confirm.invalid || newPass != confirmPass || !isLoaded2" (click)="changePassword()" class="btn btn-info btn-round"><i class="fa fa-edit"></i> Đổi mật khẩu</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+
+                    </ngb-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

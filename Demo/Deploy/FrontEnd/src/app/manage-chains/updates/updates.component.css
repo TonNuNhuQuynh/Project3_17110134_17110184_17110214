@@ -1,0 +1,74 @@
+.card {
+    margin-bottom: 1.5rem;
+    border-color: #edf2f9;
+    box-shadow: 0 0.75rem 1.5rem rgba(18,38,63,.03);
+}
+.card:not(.card-plain):hover {
+    box-shadow: none;
+    transform: none;
+    -webkit-transform: none;
+    -ms-transform: none;
+    -moz-transform: none;
+  }
+
+.card-header:first-child {
+    border-radius: calc(.5rem - 1px) calc(.5rem - 1px) 0 0;
+}
+.card-header { background-color: transparent;}
+
+.form-control-flush, .form-control-flush:focus {
+    background-color: transparent;
+}
+.form-control-flush {
+    padding: 0;
+    border-width: 0;
+}
+.dropdown-toggle {
+    white-space: nowrap;
+}
+.small.text-muted {
+    font-weight: 500;
+    font-size: 0.9em;
+    color: #74839a!important;
+}
+
+h4 {margin-top: 0px;}
+
+.sub-name a{
+    color: black !important;
+    font-size: 0.6em !important;
+    font-weight: 600 !important;
+}
+
+.avatar {
+    position: relative;
+    display: inline-block;
+    width: 2.6rem;
+    height: 2.6rem;
+    font-size: 1rem;
+}
+.btn.form-control {
+    border-color: black;
+    border-width: 1.2px;
+  }
+.btn-block {
+    text-transform: none;
+    font-weight: normal;
+    text-align: center;
+}
+.dropdown-menu {
+    overflow-y: auto; 
+    max-height: 320px;
+    background-color: white;
+}
+
+.dropdown-text {
+    text-overflow: ellipsis;
+    overflow: hidden; 
+    white-space: nowrap;
+}
+.dropdown-item p {font-size: 1em;}
+
+.dropdown .dropdown-menu .dropdown-item img {
+    margin-top: 0px
+}

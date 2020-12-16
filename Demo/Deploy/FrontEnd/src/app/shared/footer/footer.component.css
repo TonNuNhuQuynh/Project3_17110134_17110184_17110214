@@ -1,0 +1,21 @@
+.fa {
+    padding: 5px;
+  }
+.section {
+    padding-top: 30px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+}
+.title {
+  margin-bottom: 25px;
+  font-size: 2.1em;
+  margin-top: 0px;
+}
+
+.img-circle {
+  margin-bottom: 0px;
+}
+hr {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}

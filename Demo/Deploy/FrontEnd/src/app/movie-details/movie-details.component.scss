@@ -1,0 +1,146 @@
+$orange-color:  #f5593d;
+
+.backdrop {
+  //height: 500px;  
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.backdrop:before {
+  content:'';
+  width:100%; 
+  height:100%;
+  position:absolute;
+  overflow: hidden;
+  top:0; 
+  left:0;
+  // background: linear-gradient(rgb(0, 0, 0, 0), rgb(0, 0, 0, 0.80)), url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/hobbit_bg.jpg");
+  
+  // transform: skewY(-2.2deg);
+  // transform-origin:0 0; 
+}
+.img-responsive {
+  max-width: 100%;
+  height: auto;
+}
+.border {
+  border: 1px solid #e3ebf6!important;
+}
+.backdrop .container:first-child {
+  padding-top: 100px;
+}
+.title1 {
+  color: white;
+  font-size: 35px;
+  position: relative;
+
+  span {
+    top: 3px;
+    margin-left: 12px;
+    background: $orange-color;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    padding: 0px 4px;
+    vertical-align: middle;
+    display: inline-block;
+  }
+}
+.title2 {    
+  color: #C7C1BA;
+  font-size: 17px;    
+  font-weight: 300;
+  margin-bottom: 10px;
+}
+strong { color: white;}
+.btn-light {
+  color: #283e59 !important;
+  background-color: #edf2f9;
+  border-color: #edf2f9;
+  text-transform: none;
+}
+.btn-group .btn+.btn {
+  margin-left: 0;
+}
+.btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.btn-do-movie-like i, .btn-do-movie-rate i {
+  font-size: 11px;
+}
+.text-danger {
+  color: #e63757!important;
+}
+.text-success {
+  color: #10b36f!important;
+}
+.btn-do-movie-like.liked i {
+  color: #e63757;
+}
+
+.btn-do-movie-rate.rated i {
+  color: #f6c343;
+}
+.text-justify {color: white;}
+.col.text-center { color: white; }
+strong span { margin-left: 10px;}
+.metadata 
+{
+  color: $orange-color;
+  font-weight: 400;
+}
+.btn-outline-light {
+  border-width: 1.5px;
+  text-transform: none;
+  border-color: white;
+  color: white !important;
+}
+p {font-size: 14.5px;}
+//Nav
+.nav-tabs 
+{
+  font-size: 14.5px;
+  margin-bottom: 0px;
+}
+.nav-tabs .nav-link:not(.active) {
+  color: #95aac9;
+}
+.nav-tabs .nav-link {
+  padding: 1rem 0;
+  border-bottom: 1px solid transparent;
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+}
+.nav-tabs .nav-link {
+  border: 1px solid transparent;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.nav-tabs .nav-item {
+  margin-left: .75rem;
+  margin-right: .75rem;
+}
+.nav-tabs .nav-link.active,  .nav-tabs .nav-link.active :focus{
+  color: #12263f !important;
+  background-color: transparent !important;
+  border: 1px solid !important;
+  font-weight: 500 !important;
+  border-color: transparent transparent #2b76da !important;
+}
+.nav-tabs .nav-item .nav-link.active:after, .nav-tabs .nav-item .nav-link.active:hover:after, .nav-tabs .nav-item .nav-link.active:focus:after 
+{ 
+  content: none;
+  
+}
+.nav-tabs .nav-item .nav-link.active:before, .nav-tabs .nav-item .nav-link.active:hover:before, .nav-tabs .nav-item .nav-link.active:focus:before
+{
+  content: none;
+}
+.section {
+  padding: 0px;
+}
+
+

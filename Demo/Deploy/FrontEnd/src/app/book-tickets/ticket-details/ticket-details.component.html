@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <!-- Image -->
+            <div class="d-none d-sm-block col-3">
+                <a href="#"><img class="img-rounded img-responsive" src="./assets/img/success.png" alt=""></a>
+            </div>
+
+            <div class="col-12 col-sm-9">
+                <div class="text-center">
+                    <p class="text-truncate mb-0">Bạn đã mua vé thành công!</p><br>
+                    <div class="h5 mb-0">{{bookingInfo.cinemaName}}</div>
+                    <div class="text-muted">{{bookingInfo.cinemaAddr}}</div><br>
+                    <p class="text-truncate mb-0">Hãy đưa mã này cho nhân viên quầy vé để đổi vé của bạn</p><br>
+                    <p class="h5 text-truncate name">{{bookingInfo.orderId}}</p><br>
+                </div>
+                <hr>
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <p class="text-truncate mb-0">Thông tin vé của bạn cũng sẽ được gửi về: </p>
+                        <p class="text-truncate mb-0">Email: <strong>{{bookingInfo.email}}</strong></p>
+                        <p class="text-truncate mb-0">Số điện thoại: <strong>{{bookingInfo.phone}}</strong></p>
+                    </div>
+                    <div class="col-4">
+                        <button (click)="redirect()" class="btn btn-dark btn-block">Quay lại</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

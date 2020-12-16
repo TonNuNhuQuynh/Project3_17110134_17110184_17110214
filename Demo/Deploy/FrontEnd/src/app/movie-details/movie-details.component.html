@@ -1,0 +1,108 @@
+<div class="wrapper">
+  <div class="main">
+      <div class="section">
+        <div class="backdrop" [style]="getBackdrop()">
+          
+          <div class="container">
+            <div class="row row-sm">
+              <!-- Image -->
+              <div class="d-none d-sm-block col-2">
+                <a [routerLink]="['/movie-details']" [queryParams]="{ movieId: movie.movie.id }">
+                  <img [src]="movie.movie.poster != null && movie.movie.poster != ''? movie.movie.poster: './assets/img/no-image.jpg'" alt="cover" class="img-rounded img-responsive border" />
+                </a>
+              </div>
+              
+              <div class="col-12 col-sm-10">
+                <!-- Titles -->
+                <div class="mb-3 text-center text-sm-left">
+                  <div class="title1">{{movie.movie.title}} <span *ngIf="movie.movie.ageRating != null && movie.movie.ageRating != ''">{{movie.movie.ageRating}}</span></div>
+                  <div class="title2">{{movie.movie.originalTitle}} - {{movie.genres}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 col-lg-7">
+
+                    <!-- Button like, rate, book tickets -->
+                    <div class="btn-block text-sm-left text-center mb-3">
+                      <a class="btn btn-light btn-sm btn-do-movie-like" (click)="likeMovie($event)" [ngClass]="{'liked': auth.activityStorage.movieLikeIds.indexOf(movie.movie.id) > -1}"><i class="fa fa-heart"></i> Thích</a>
+                      <a class="btn btn-light btn-sm btn-do-movie-rate" (click)="rateMovie($event)" [ngClass]="{'rated': auth.activityStorage.rateIds.indexOf(movie.movie.id) > -1}" placement="top" ngbTooltip="Soạn đánh giá"><i class="fa fa-star"></i> Đánh giá</a>
+                      <a class="btn btn-outline-light btn-sm" (click)="openTrailerModal()" >Trailer</a>
+                      <a class="btn btn-outline-light btn-sm" [routerLink]="['/movie-details/showtimes']" [queryParams]="{ movieId: movieId }">Mua vé</a>
+                      <ng-container *ngIf="movie.ratings > 0" >
+                        <a class="text-light" [ngClass]="{'text-success': movie.ratings >= 7.5, 'text-danger': movie.ratings <= 5}"><i class="fa fa-star"></i> {{movie.ratings | number:'1.1-1'}}/10</a>
+                      </ng-container>
+                    </div>
+
+                    <!-- Movie plot -->
+                    <p class="mb-3 text-justify">{{movie.movie.plot}}</p>    
+
+                    <!-- Release date and duration -->
+                    <div class="row mb-3">
+                      <div class="col text-center text-sm-left">
+                        <strong><i class="far fa-calendar-check"></i><span class="d-none d-sm-inline-block">Khởi chiếu</span></strong>
+                        <br><span>{{movie.movie.releaseDate | date:'dd/MM/yyyy'}}</span>
+                      </div>
+
+                      <div class="col text-center text-sm-left">
+                        <strong><i class="far fa-clock"></i><span class="d-none d-sm-inline-block">Thời lượng</span></strong>
+                        <br><span>{{movie.movie.runtime}} phút</span>
+                      </div>
+
+                      <div class="col text-center text-sm-left"></div>
+                    </div>
+                  </div>
+
+                  <!-- Actors, producers and directors -->
+                  <div class="col-12 col-lg-5">
+                    <p class="mb-2" *ngIf="movie.movie.casts.length > 0">
+                      <strong class="title3">Diễn viên</strong> <br>
+                      <span>
+                        <ng-container *ngFor="let c of movie.movie.casts; let i = index">
+                          <a [routerLink]="['/search']" [queryParams]="{ actor: c.name }" class="metadata" href="#" ngbTooltip="{{c.character}}" placement="top">{{c.name}}</a><ng-container *ngIf="i != movie.movie.casts.length - 1">, </ng-container>
+                        </ng-container>           
+                      </span>
+                    </p>
+
+                    <p class="mb-2" *ngIf="movie.directors.length > 0">
+                      <strong class="title3">Đạo diễn</strong> <br>
+                      <span>
+                        <ng-container *ngFor="let d of movie.directors; let i = index">
+                          <a class="metadata" [routerLink]="['/search']" [queryParams]="{ director: d }">{{d}}</a><ng-container *ngIf="i != movie.directors.length - 1">, </ng-container>
+                        </ng-container>
+                      </span>
+                    </p>
+
+                    <p class="mb-2" *ngIf="movie.producers.length > 0">
+                      <strong class="title3">Nhà sản xuất</strong> <br>
+                      <span>
+                        <ng-container *ngFor="let p of movie.producers; let i = index">
+                          <a class="metadata" [routerLink]="['/search']" [queryParams]="{ producer: p }">{{p}}</a><ng-container *ngIf="i != movie.producers.length - 1">, </ng-container>
+                        </ng-container>
+                      </span>
+                    </p>
+
+                  </div>
+                </div>
+        
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab review và lịch chiếu -->
+      <div class="bg-white border-bottom sticky-movie-bars">
+        <div class="container">
+          <ul class="nav nav-tabs border-bottom-0">
+            <li class="nav-item"><a [routerLink]="['/movie-details/reviews']" [queryParams]="{ movieId: movieId }" [ngClass]="{'active': selectedTab == 1}" (click)="selectedTab = 1" class="nav-link text-center">Đánh giá phim</a></li>
+            <li class="nav-item"><a [routerLink]="['/movie-details/showtimes']" [queryParams]="{ movieId: movieId }" [ngClass]="{'active': selectedTab == 2}" (click)="selectedTab = 2" class="nav-link text-center">Lịch chiếu</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <router-outlet *ngIf="isLoaded" (activate)="onChildLoaded($event)"></router-outlet>
+
+      <br>
+      <br>
+  </div>
+</div>

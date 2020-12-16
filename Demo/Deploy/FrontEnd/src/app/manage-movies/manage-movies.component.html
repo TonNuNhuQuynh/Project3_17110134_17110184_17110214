@@ -1,0 +1,112 @@
+<div class="wrapper">
+    <div class="documentation page-header page-header-small" id="landing-wrapper" >
+        <div class="filter"></div>
+        <div class="motto">
+            <br>
+            <h4 class="title-uppercase text-center">Quản lý phim</h4>
+            <br>
+            <h5 class="page-description text-center">Trang quản lý kho phim của website, cho phép Admin thêm phim mới, cập nhật thông tin của phim và xóa phim</h5>
+            <br>
+        </div>
+    </div>
+    <div class="main">
+        <div class="section">
+            <div class="container">
+                <h2>Danh sách phim của website</h2>
+                <br> 
+                <div class="row tim-row">
+                    <!-- Filters -->
+                    <div class="col-lg-2 col-md-6">
+                        <div class="row">
+                            <div class="col-12"><span class="label label-info mb-4">Lọc phim</span></div>
+                            
+                            <div class="col-4 col-sm-12">
+                                <!-- Genres -->
+                                <div ngbDropdown class="d-inline-block btn-block mb-4">
+                                    <button class="btn btn-block form-control dropdown-text" id="dropdownMenu1" ngbDropdownToggle>{{gSelectAll}}</button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1" ngbDropdownMenu>
+                                        <button (click)="filterGenres(genres.length + 1, 'Tất cả')" class="dropdown-item">Tất cả</button>
+                                        <button *ngFor="let g of genres" (click)="filterGenres(g.id, g.name)" class="dropdown-item">{{g.name}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Languages -->
+                            <div class="col-4 col-sm-12">
+                                <div ngbDropdown class="d-inline-block btn-block mb-4">
+                                    <button class="btn btn-block form-control" id="dropdownMenu1" ngbDropdownToggle>{{lSelectAll}}</button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1" ngbDropdownMenu>
+                                        <button (click)="filterLanguages(languages.length + 1, 'Tất cả')" class="dropdown-item">Tất cả</button>
+                                        <button *ngFor="let l of languages" (click)="filterLanguages(l.id, l.name)" class="dropdown-item">{{l.name}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Statuses -->
+                            <div class="col-4 col-sm-12">
+                                <div ngbDropdown class="d-inline-block btn-block mb-4">
+                                    <button class="btn btn-block form-control" id="dropdownMenu1" ngbDropdownToggle>{{sSelectAll}}</button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1" ngbDropdownMenu>
+                                        <button (click)="filterStatuses(statuses.length + 1, 'Tất cả')" class="dropdown-item">Tất cả</button>
+                                        <button *ngFor="let s of statuses" (click)="filterStatuses(s.id, s.name)" class="dropdown-item">{{s.name}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-4 col-sm-12">
+                                <a [routerLink]="['/add-movie']" class="btn btn-success btn-block text-center"><span class="fa fa-plus-circle"></span> Thêm phim</a>
+                            </div>
+                            
+                            <!-- <span class="label label-info mb-4">Thể loại</span>
+                            <select (change)="filterGenres()" [(ngModel)]="genreId" class="form-control mb-4" data-width="auto">
+                                <option [ngValue]="genres.length + 1">Tất cả</option>
+                                <option [ngValue]="g.id" *ngFor="let g of genres">{{g.name}}</option>
+                            </select>    -->
+                            
+                        </div>
+                    </div>  
+                    <!-- Movie List -->
+                    <div class="col-lg-10 col-md-12">
+                        <!-- <a href="#/add-movie" class="btn btn-success mb-2"><span class="fa fa-plus-circle"></span> Thêm phim</a> -->
+                        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" id="table" class="table">
+                            <thead class="thead-dark">
+                              <tr>
+                                <th class="text-center" scope="col">Poster</th>
+                                <th class="text-center" scope="col">Tựa đề</th>
+                                <th class="text-center" scope="col">Đánh giá</th>
+                                <th class="text-center" scope="col">Ngôn ngữ</th>
+                                <th class="text-center" scope="col">Năm phát hành</th>
+                                <th scope="col"></th>
+                              </tr>
+                            </thead>
+                            <tbody >
+                              <tr *ngFor='let m of filterMovies'>
+                                <td>
+                                    <a [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.movie.id }">
+                                        <img class="img-rounded img-responsive" *ngIf="m.movie.poster != null || m.movie.poster != ''" [src]="m.movie.poster" style="width:150px;height:180px;">
+                                        <img *ngIf="m.movie.poster == null || m.movie.poster == ''" class="img-rounded img-responsive" src="./assets/img/no-image.jpg" style="width:150px;height:180px;">
+                                    </a>
+                                </td>
+                                <td><p class="cut-text">{{m.movie.title}}</p></td>
+                                <td class="text-center">{{m.ratings | number:'1.1-1'}}</td>
+                                <td class="text-center">{{m.movie.language.name}}</td>
+                                <td class="text-center">{{m.movie.releaseDate | date:'yyyy'}}</td>
+                                <td>
+                                    <!-- Edit  -->
+                                    <div ngbDropdown class="d-inline-block">
+                                        <button class="btn btn-info btn-sm" id="dropdownMenu1" ngbDropdownToggle><i class="fa fa-edit"></i></button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu1" ngbDropdownMenu>
+                                            <button (click)="openMovieModal(m.movie.id)" class="dropdown-item">Chi tiết phim</button>
+                                            <button (click)="openCastModal(m.movie.id)" class="dropdown-item">Diễn viên</button>
+                                        </div>
+                                    </div>
+                                    <!-- Delete -->
+                                    <button type="button" class="btn btn-danger btn-sm" (click)="deleteMovie(m.movie.id)"><i class="fa fa-remove"></i></button>
+                                </td>
+                              </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>    
+            </div>       
+        </div>
+    </div>
+</div>

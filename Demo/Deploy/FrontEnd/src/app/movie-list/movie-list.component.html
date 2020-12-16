@@ -1,0 +1,81 @@
+<div class="wrapper">
+    <div class="documentation page-header page-header-small" id="landing-wrapper" >
+        <div class="filter"></div>
+        <div class="motto">
+            <br>
+            <h4 class="title-uppercase text-center">{{name}}</h4>
+            <br>
+            <h5 class="text-center">Danh sách các phim {{note}} tại các hệ thống rạp trên toàn quốc.</h5>
+            <br>
+        </div>
+    </div>
+    <div class="main">
+        <div class="section">
+            <div class="container">
+                <div class="row tim-row">
+                    <!-- Filters -->
+                    <div class="col-lg-2 col-md-6">
+                        <div class="row">
+                             <!-- Genres -->
+                            <div class="col-6 col-sm-12">
+                                <div ngbDropdown class="d-inline-block btn-block mb-4">
+                                    <button class="btn btn-block form-control dropdown-text" id="dropdownMenu1" ngbDropdownToggle>{{gSelectAll}}</button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1" ngbDropdownMenu>
+                                        <button (click)="filterGenres(genres.length + 1, 'Tất cả')" class="dropdown-item">Tất cả</button>
+                                        <button *ngFor="let g of genres" (click)="filterGenres(g.id, g.name)" class="dropdown-item">{{g.name}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Languages -->
+                            <div class="col-6 col-sm-12">
+                                <div ngbDropdown class="d-inline-block btn-block mb-4">
+                                    <button class="btn btn-block form-control" id="dropdownMenu1" ngbDropdownToggle>{{lSelectAll}}</button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1" ngbDropdownMenu>
+                                        <button (click)="filterLanguages(languages.length + 1, 'Tất cả')" class="dropdown-item">Tất cả</button>
+                                        <button *ngFor="let l of languages" (click)="filterLanguages(l.id, l.name)" class="dropdown-item">{{l.name}}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                    
+                    <!-- Movie List -->
+                    <div class="col-lg-10 col-md-12">
+                        <div class="row">
+                            <div *ngIf="!loaded"  class="col-12 text-center">
+                                <div class="spinner-border text-danger" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>     
+
+                            <ng-container *ngIf="loaded">
+                                <div class="col-md-3 col-sm-4 col-6 mb-4" *ngFor="let m of filterMovies">
+                                    <div class="card card-xs">
+                                        <div class="btn-group btn-actions">
+                                            <a #like (click)="likeMovie($event, m.movie.id)" [ngClass]="{'liked': auth.activityStorage.movieLikeIds.indexOf(m.movie.id) > -1}" class="btn btn-light btn-do-movie-like"><i class="fa fa-heart"></i></a>
+                                            <a (click)="rateMovie($event, m.movie.id)" class="btn btn-light btn-do-movie-rate" [ngClass]="{'rated': auth.activityStorage.rateIds.indexOf(m.movie.id) > -1}"><i class="fa fa-star"></i></a>
+                                        </div>
+                                        <a [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.movie.id }">
+                                            <img *ngIf="m.movie.poster != null" class="card-img-top embed-responsive-item" [src]="m.movie.poster" alt="Card image cap">
+                                            <img *ngIf="!m.movie.poster" class="card-img-top embed-responsive-item" src="./assets/img/no-poster.jpg" alt="Card image cap">
+                                        </a>
+                                        <div class="card-body border-top">
+                                            <h3 class="text-truncate h4 mb-1" placement="top" ngbTooltip="{{m.movie.title}}" container="body"><a [routerLink]="['/movie-details']" [queryParams]="{ movieId: m.movie.id }"> {{m.movie.title}}</a></h3>
+                                            <div class="row no-gutters small">
+                                                <div class="col text-muted">{{m.movie.releaseDate | date : 'dd/MM'}}</div>
+                                                <div *ngIf="m.ratings > 0" class="col text-right">
+                                                    <a class="text-muted" [ngClass]="{'text-success': m.ratings >= 7.5, 'text-danger': m.ratings <= 5}"><i class="fa fa-star"></i> {{m.ratings | number:'1.1-1'}}/10</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>    
+                <br>
+            </div>       
+        </div>
+    </div>
+</div>

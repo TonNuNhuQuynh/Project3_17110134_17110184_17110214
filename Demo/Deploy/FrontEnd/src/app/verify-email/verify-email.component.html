@@ -1,0 +1,22 @@
+<div class="wrapper">
+    <div class="page-header" style="background-image: url('/assets/img/banners/home-banner.png');">
+        <!-- <div class="filter"></div> -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                    <div *ngIf="accountId == 0 && !code" class="card card-register">
+                        <h3 class="title">Bạn đã đăng ký tài khoản thành công!</h3>
+                        <span style="text-align: center;"><img src="./assets/img/success.png" style="height: 110px; width: 110px;"></span>
+                        <h6 class="mt-3" style="text-align: center;">Kiểm tra email đã đăng ký để xác nhận tài khoản trước khi đăng nhập</h6>
+                    </div>
+                    <div *ngIf="accountId != 0 && code" class="card card-register">
+                        <h3 class="title">Nhấn nút bên dưới để xác nhận tài khoản</h3>
+                        <span style="text-align: center;"><img src="./assets/img/verify.png" style="height: 110px; width: 110px;"></span>
+                        <button *ngIf="!success" [disabled]="isLoaded" (click)="confirm()" class="btn btn-success btn-block btn-round">Xác nhận</button>
+                        <a *ngIf="success" [routerLink]="['/home']" class="btn btn-primary btn-block btn-round">Về trang chủ</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

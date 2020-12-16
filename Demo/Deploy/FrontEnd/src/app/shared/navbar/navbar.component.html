@@ -1,0 +1,88 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-transparent" color-on-scroll="500">
+    <div class="container">
+        <div class="navbar-translate">
+            <!-- <a class="navbar-brand" href="https://www.creative-tim.com">Movie Reviews And Tickets</a> -->
+            <a [routerLink]="['/home']"><img src="assets/img/logo.png" height="90%" width="100%" /></a>
+            <button class="navbar-toggler navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation" (click)="sidebarToggle()">
+                <span class="navbar-toggler-bar"></span>
+                <span class="navbar-toggler-bar"></span>
+                <span class="navbar-toggler-bar"></span>
+            </button>
+        </div>
+        
+        <div class="navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav" >
+                <!-- Home -->
+                <li class="nav-item">
+                    <a class="nav-link" [routerLink]="['/home']">Trang chủ</a>
+                </li>
+
+                <!-- Phim -->
+                <li class="nav-item">
+                    <div ngbDropdown class="d-inline-block dropdown">
+                        <a class="nav-link" href="javascript:void(0)" id="dropdownBasic1" ngbDropdownToggle >Phim</a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-danger">
+                            <a [routerLink]="['/movie/now']" class="dropdown-item">Đang Chiếu</a>
+                            <a [routerLink]="['/movie/upcomings']" class="dropdown-item">Sắp Chiếu</a>                
+                        </div>
+                    </div>
+                </li>
+                <!-- Rạp phim -->
+                <li class="nav-item">
+                    <a class="nav-link" href="javascript:void(0)" (click)="openCinemasModal()">Rạp phim</a>
+                </li>
+
+                <li class="nav-item" *ngIf="isAdmin" >
+                    <div ngbDropdown class="d-inline-block dropdown">
+                        <a class="nav-link" id="dropdownBasic1" ngbDropdownToggle >Admins</a>
+                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-danger">
+                            <a [routerLink]="['/statistics']" class="dropdown-item">Thống kê</a>
+                            <a [routerLink]="['/manage-movies']" class="dropdown-item">Quản lý Phim</a>
+                            <a [routerLink]="['/manage-accounts']" class="dropdown-item">Quản lý Tài khoản</a>
+                            <a *ngIf="isSupAdmin" [routerLink]="['/manage-chains']" class="dropdown-item">Quản lý Chuỗi Rạp</a>                          
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="row align-items-center ml-auto">
+            <div class="input-group col align-items-center" id="searchbox" style="background: transparent !important;">
+                <input (keyup.enter)="search()" class="form-control py-2 rounded-pill mr-1 pr-5 bg-transparent border text-light" placeholder="Tìm kiếm phim ..." type="search" [(ngModel)]="query">
+                <span class="input-group-append">
+                    <button (click)="search()" class="btn btn-link rounded-pill border-0 ml-n5 text-light" type="button"><i style="vertical-align: middle !important;" class="fa fa-search"></i></button>
+                </span>
+            </div>
+            <div class="col-auto">
+                <ul class="navbar-nav" style="align-items: center !important;">   
+                    <!-- Location -->
+                    <li class="nav-item">
+                        <a class="nav-link" rel="tooltip" title="Star on GitHub" data-placement="bottom" (click)="openLocationModal()" target="_blank">
+                            <i class="fa fa-map-marker-alt"></i>
+                            <p class="d-lg-none">Location</p>
+                        </a>
+                    </li>
+                    <!-- Đăng nhập -->
+                    <li class="nav-item" *ngIf="auth.currentAccountValue == null">
+                        <button (click)="openLoginModal()" type="button"target="_blank" class="btn btn-danger btn-round">Đăng nhập</button>
+                    </li>
+
+                    <li class="nav-item" *ngIf="auth.currentAccountValue != null">
+                        <div ngbDropdown class="d-inline-block dropdown">
+                            <a class="avatar avatar-sm" id="dropdownBasic1" ngbDropdownToggle style="vertical-align: middle !important;">
+                                <img [src]="auth.currentAccountValue.user.image == null? './assets/img/user-default.png': auth.currentAccountValue.user.image" class="avatar-img img-circle img-no-padding">
+                            </a>
+                            <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-danger dropdown-menu-right">
+                                <a [routerLink]="['/profile']" class="dropdown-item">Quản lý Tài khoản</a>
+                                <a [routerLink]="['/watchlist']" class="dropdown-item">Tủ phim</a>
+                                <hr class="dropdown-divider">
+                                <a href="javascript:void(0)" (click)="logout()" class="dropdown-item">Đăng xuất</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+

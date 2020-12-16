@@ -1,0 +1,66 @@
+<div class="wrapper">
+    <div class="page-header" style="background-image: url('/assets/img/banners/home-banner.png');">
+        <!-- <div class="filter"></div> -->
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+                    <div class="card card-register">
+                        <h3 class="title">Đăng kí tài khoản</h3>
+                        <form class="register-form">
+
+                        <label>Tên đăng nhập</label>
+                        <div class="input-group form-group-no-border" [ngClass]="{'error':  username.invalid && (username.touched || username.dirty)}">
+                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user"></i></span></div>
+                            <input required pattern="^[a-z0-9_-]{6,15}$" [ngClass]="{'is-invalid':  username.invalid && (username.touched || username.dirty)}" type="text" class="form-control" placeholder="Username" name="username" #username="ngModel" [(ngModel)]="account.username">
+                        </div>
+                        <ng-container *ngIf="username.invalid && (username.touched || username.dirty)">
+                            <div class="text-light" *ngIf="username.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+                            <div class="text-light" *ngIf="username.errors?.pattern"><i class="fa fa-exclamation-circle"></i> Tên đăng nhập phải từ 6 - 15 chữ, không có khoảng trắng!</div>
+                        </ng-container>
+
+                        <label>Email</label>
+                        <div class="input-group form-group-no-border" [ngClass]="{'error': e.invalid && (e.touched || e.dirty)}">
+                            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-envelope"></i></span></div>
+                            <input type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" [ngClass]="{'is-invalid': e.invalid && (e.touched || e.dirty)}" class="form-control" placeholder="Email" name="email" #e="ngModel" [(ngModel)]="account.email">
+                        </div>
+                        <ng-container *ngIf="e.invalid && (e.touched || e.dirty)">
+                            <div class="text-light" *ngIf="e.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+                            <div class="text-light" *ngIf="e.errors?.pattern"><i class="fa fa-exclamation-circle"></i> Email không hợp lệ!</div>
+                        </ng-container>
+
+                        <label>Mật khẩu</label>
+                        <div class="input-group form-group-no-border" [ngClass]="{'error': pass.invalid && (pass.touched || pass.dirty), 'valid': !pass.invalid}">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-unlock-alt"></i></span>
+                            </div>
+                            <input type="password" required minlength="6" maxlength="6" [ngClass]="{'is-invalid': pass.invalid && (pass.touched || pass.dirty), 'is-valid': !pass.invalid}" class="form-control" placeholder="Password" name="password" #pass="ngModel" [(ngModel)]="account.password">
+                        </div>
+                        <ng-container *ngIf="pass.invalid && (pass.touched || pass.dirty)">
+                            <div class="text-light" *ngIf="pass.errors?.required"><i class="fa fa-exclamation-circle"></i>Không được bỏ trống trường này</div>
+                            <div class="text-light" *ngIf="pass.errors?.minlength || pass.errors?.maxlength"><i class="fa fa-exclamation-circle"></i> Mật khẩu phải từ 6 - 15 kí tự!</div>
+                        </ng-container>
+
+                        <label>Xác nhận</label>
+                        <div class="input-group form-group-no-border" [ngClass]="{'error': (confirm.invalid || confirmPass != account.password) && (confirm.touched || confirm.dirty), 'valid': confirm.valid && confirmPass == account.password}">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fa fa-check-circle"></i></span>
+                            </div>
+                            <input type="password" required [ngClass]="{'is-invalid': (confirm.invalid || confirmPass != account.password) && (confirm.touched || confirm.dirty), 'is-valid': confirm.valid && confirmPass == account.password}" class="form-control" placeholder="Confirm password" name="confirm" #confirm="ngModel" [(ngModel)]="confirmPass">
+                        </div>
+                        <ng-container *ngIf="(confirm.invalid || confirmPass != account.password) && (confirm.touched || confirm.dirty)">
+                            <div class="text-light" *ngIf="confirm.errors?.required && confirm.touched"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này</div>
+                            <div class="text-light" *ngIf="confirmPass != '' && confirmPass != account.password"><i class="fa fa-exclamation-circle"></i> Mật khẩu không trùng khớp!</div>
+                        </ng-container>
+
+                        <button (click)="register()" [disabled]="username.invalid || e.invalid || pass.invalid || confirm.invalid || account.password != confirmPass" class="btn btn-danger btn-block btn-round">Đăng ký</button>
+                        </form>
+
+                        <div class="forgot">
+                            <a [routerLink]="['/forgot-password']" class="btn btn-link btn-danger">Quên mật khẩu?</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

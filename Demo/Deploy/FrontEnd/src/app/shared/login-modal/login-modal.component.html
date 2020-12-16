@@ -1,0 +1,63 @@
+<!-- <div class="modal-header">
+    <h5 class="modal-title text-center text-danger" style="font-weight: bold;">Đăng nhập</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeAlert('Close')"><span aria-hidden="true">&times;</span></button>
+</div> -->
+
+<div class="modal-body"> 
+
+    <h3 class="title">Login</h3>
+    <form class="register-form">
+
+      <div class="mb-4">
+        <ngb-alert *ngIf="showAlert" type="danger" [dismissible]="true">
+          <div class="container"><i class="nc-bell-55 nc-icon"></i>  {{alertMsg}}</div>
+        </ngb-alert>
+      </div>
+
+      <!-- Username -->
+      <div class="mb-4">
+        <label>Tên đăng nhập</label>
+        <div class="input-group form-group-no-border" [ngClass]="{'error':  username.invalid && (username.touched || username.dirty), 'valid': !username.invalid && !showAlert}">
+            <div class="input-group-prepend"><span class="input-group-text"><i class="fa fa-user"></i></span></div>
+            <input required pattern="^[a-z0-9_-]{6,15}$" [ngClass]="{'is-invalid':  username.invalid && (username.touched || username.dirty), 'is-valid': !username.invalid && !showAlert}" type="text" class="form-control" placeholder="Username" name="username" #username="ngModel" [(ngModel)]="account.username">
+        </div>
+        <ng-container *ngIf="username.invalid && (username.touched || username.dirty)">
+            <div class="text-light" *ngIf="username.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này!</div>
+            <div class="text-light" *ngIf="username.errors?.pattern"><i class="fa fa-exclamation-circle"></i> Tên đăng nhập không hợp lệ!</div>
+        </ng-container>
+      </div>
+      <!-- Password -->
+      <div class="mb-4">
+        <div class="row">
+            <label class="col">Mật khẩu</label>
+            <label class="col-auto">
+                <input type="checkbox" [(ngModel)]="remember" name="remember"> Remember me
+            </label>
+        </div>
+        
+        <div class="input-group form-group-no-border" [ngClass]="{'error': pass.invalid && (pass.touched || pass.dirty), 'valid': !pass.invalid && !showAlert}">
+            <div class="input-group-prepend">
+                <span class="input-group-text"><i class="fa fa-unlock-alt"></i></span>
+            </div>
+            <input type="password" required minlength="6" maxlength="15" [ngClass]="{'is-invalid': pass.invalid && (pass.touched || pass.dirty), 'is-valid': !pass.invalid && !showAlert}" class="form-control" placeholder="Password" name="password" #pass="ngModel" [(ngModel)]="account.password">
+        </div>
+        <ng-container *ngIf="pass.invalid && (pass.touched || pass.dirty)">
+            <div class="text-light" *ngIf="pass.errors?.required"><i class="fa fa-exclamation-circle"></i> Không được bỏ trống trường này!</div>
+            <div class="text-light" *ngIf="pass.errors?.minlength || pass.errors?.maxlength"><i class="fa fa-exclamation-circle"></i> Mật khẩu phải từ 6 - 15 kí tự!</div>
+        </ng-container>
+      </div>
+
+      <button (click)="login()" [disabled]="username.invalid ||  pass.invalid || !isLoaded" class="btn btn-danger btn-block btn-round">Đăng nhập</button>
+      <!-- Quên pass -->
+      <div class="text-center">
+        <small class="text-light"><a (click)="closeModal('Close')" href="#/forgot-password">Quên mật khẩu</a>?</small>
+      </div>
+      <!-- Register -->
+      <div class="text-center">
+          <small class="text-light">Chưa có tài khoản? <a href="#/register" (click)="closeModal('Close')">Đăng ký ngay</a>!</small>
+      </div>
+    </form>
+
+</div>
+
+

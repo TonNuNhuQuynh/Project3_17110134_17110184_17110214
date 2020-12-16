@@ -1,0 +1,35 @@
+<div class="modal-body pt-0 pb-0 pl-0 pr-0">
+    <div class="card mb-0">
+        <div class="card-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="row align-items-center">
+                        <div class="col-auto pr-0"><span class="fa fa-search text-muted"></span></div>
+                        <div class="col">
+                            <input (keyup)="searchCinemas()" [(ngModel)]="key" type="search" class="form-control form-control-flush" placeholder="Tìm rạp tại {{cityName}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto"></div>
+            </div>
+        </div>
+
+        <div *ngIf="!isLoaded" class="col-12 text-center">
+            <div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div>
+        </div> 
+
+        <div *ngIf="isLoaded && filterCinemas.length > 0" class="pt-3 list">
+            <div *ngFor="let cinema of filterCinemas" class="row align-items-center pl-4 pr-4 pb-3">
+                <!-- Avatar -->
+                <div class="col-auto"><a class="avatar"><img [src]="cinema.logo" class="img-circle img-no-padding img-responsive"></a></div>
+                <div class="col ml-n2">
+                    <!-- Title -->
+                    <h4 class="mb-1 sub-name"><a (click)="closeModal('Close')" [routerLink]="['/cinema']" [queryParams]="{ cinema: cinema.id }">{{cinema.name}}</a></h4>
+                    <!-- Address -->
+                    <p class="card-text small text-muted address mb-0">{{cinema.address}}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

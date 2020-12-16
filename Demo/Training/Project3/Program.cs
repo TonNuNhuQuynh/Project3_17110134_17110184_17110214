@@ -35,7 +35,10 @@ namespace Project3
             ITransformer improvedModel = ImproveModel(mlContext, dataView);
             UseModelForSinglePrediction(mlContext, model);
             Console.WriteLine("\n--------------------Saving the model to a file ----------------------");
-            SaveModel(mlContext, trainingDataView.Schema, improvedModel);
+            //SaveModel(mlContext, trainingDataView.Schema, improvedModel);
+            DataViewSchema modelSchema;
+            ITransformer savedModel = mlContext.Model.Load(GetAbsolutePath(ModelRelativePath), out modelSchema);
+            UseModelForSinglePrediction(mlContext, savedModel);
         }
         public static IDataView LoadData(MLContext mlContext)
         {

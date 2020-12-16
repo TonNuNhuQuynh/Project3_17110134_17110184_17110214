@@ -1,0 +1,109 @@
+#landing-wrapper {
+    background: linear-gradient(rgb(0, 0, 0, 0), rgb(0, 0, 0, 0.80)), url('/assets/img/banners/banner1.jpg');
+    color: white;
+    background-repeat: no-repeat; 
+    background-size: cover; 
+    width: 100%;
+    min-height: 100vh;
+}
+
+.card {
+    margin-bottom: 1.5rem;
+    border-color: #edf2f9;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid #edf2f9;
+    border-radius: .5rem;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+h4 {margin-top: 0px;}
+
+.card:not(.card-plain):hover 
+{
+    box-shadow: none;
+    transform: none;
+    -webkit-transform: none;
+    -ms-transform: none;
+    -moz-transform: none;
+}
+.btn-group-vertical>.btn, .btn-group>.btn {
+    position: relative; 
+    flex: 1 1 auto;
+}
+.text-muted {
+    color: #12263f!important;
+}
+.card-header:first-child {
+    border-radius: calc(.5rem - 1px) calc(.5rem - 1px) 0 0;
+}
+.card-header>* {
+    flex: 1;
+}
+.card-header {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: center;
+    min-height: 3.75rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+.bg-light {
+    background-color: #edf2f9!important;
+}
+.card-header {
+    padding: 1rem 1.5rem;
+    margin-bottom: 0;
+    background-color: transparent;
+    border-bottom: 1px solid #edf2f9;
+}
+.badge-dark {
+    color: #fff;
+    background-color: #12263f;
+}
+.name {
+    font-size: 1em;
+    font-weight: 600;
+}
+.sub-name{
+    color: black;
+    font-weight: 500;
+    text-transform: none;
+}
+.address {
+    font-weight: 500;
+    font-size: 0.9em;
+    color: #74839a!important;
+}
+.border-bottom {
+    border-bottom: 1px solid #e3ebf6!important;
+}
+.badge {
+    vertical-align: middle !important;
+}
+.badge-danger {
+    color: white !important;
+    background-color: #f5593d !important;
+}
+.badge {
+    display: inline-block;
+    padding: .33em .5em;
+    font-size: 75%;
+    font-weight: 400;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .375rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+:host ::ng-deep .e-control-wrapper {
+    font-family: Montserrat;
+    font-size: inherit;
+}
