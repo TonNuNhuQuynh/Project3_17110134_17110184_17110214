@@ -32,7 +32,6 @@ export class NavbarComponent implements OnInit {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
 
-        // this.authObservable.next(this.auth.currentAccountValue);
         this.auth.currentAccountAsSubject.subscribe(() => {
             this.isAdmin = this.auth.currentAccountValue == null ? false: this.auth.currentAccountValue.roleName == RolesService.admin || this.auth.currentAccountValue.roleName == RolesService.superAdmin;
             this.isSupAdmin = this.auth.currentAccountValue == null ? false: this.auth.currentAccountValue.roleName == RolesService.superAdmin;
@@ -41,9 +40,7 @@ export class NavbarComponent implements OnInit {
     sidebarOpen() {
         const toggleButton = this.toggleButton;
         const html = document.getElementsByTagName('html')[0];
-        // console.log(html);
-        // console.log(toggleButton, 'toggle');
-
+        
         setTimeout(function(){
             toggleButton.classList.add('toggled');
         }, 500);
@@ -53,14 +50,11 @@ export class NavbarComponent implements OnInit {
     };
     sidebarClose() {
         const html = document.getElementsByTagName('html')[0];
-        // console.log(html);
         this.toggleButton.classList.remove('toggled');
         this.sidebarVisible = false;
         html.classList.remove('nav-open');
     };
     sidebarToggle() {
-        // const toggleButton = this.toggleButton;
-        // const body = document.getElementsByTagName('body')[0];
         if (this.sidebarVisible === false) {
             this.sidebarOpen();
         } else {
@@ -101,6 +95,7 @@ export class NavbarComponent implements OnInit {
             if (result == 'Success') 
             {
                 if (this.isAdmin) this.router.navigate(['/statistics']);
+                else window.location.reload();
                 
             }
         }, () => {})

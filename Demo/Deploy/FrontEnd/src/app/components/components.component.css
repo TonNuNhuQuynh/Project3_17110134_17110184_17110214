@@ -332,7 +332,8 @@ a {
   text-align: center;
 }
 .card-img-top{
-  height: 15rem; 
+  min-height: 15rem;
+  max-height: 400px;  
 }
 /* Latest trailer */
 .w3l-main-slider .banner-top3 {
@@ -469,4 +470,11 @@ hr
   left: 0;
   right: 0;
   z-index: 99999;
+}
+@media (min-width: 940px) 
+{
+  .now-playing ::ng-deep .owl-item
+  {
+    max-width: 200px !important;
+  }
 }

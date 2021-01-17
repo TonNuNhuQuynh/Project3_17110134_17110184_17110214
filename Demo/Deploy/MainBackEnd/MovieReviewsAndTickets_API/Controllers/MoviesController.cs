@@ -245,7 +245,7 @@ namespace MovieReviewsAndTickets_API.Controllers
             // Sử dụng model để dự đoán rating của userId lên một số phim
             var recommendedMovies = new List<Movie>();
             MovieRatingPrediction prediction = null;
-            foreach (var movie in _context.Movies.ToList())
+            foreach (var movie in _context.Movies.OrderBy(x => Guid.NewGuid()).ToList())
             {
                 movie.Reviews = null;
                 if (ratedIds.Contains(movie.Id)) continue;

@@ -56,7 +56,6 @@ namespace MovieReviewsAndTickets_API
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
-                options.User.RequireUniqueEmail = true;
                 options.Lockout.AllowedForNewUsers = false;
 
             }).AddEntityFrameworkStores<ApplicationDbContext>()

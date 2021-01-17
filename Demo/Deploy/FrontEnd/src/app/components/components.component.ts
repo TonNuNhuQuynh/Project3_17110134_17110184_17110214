@@ -63,14 +63,12 @@ export class ComponentsComponent implements OnInit {
   }
 
   customOptions2: OwlOptions = {
-    // center: true,
     loop: true,
-    margin: 15,
+    margin: 25,
     nav: false,
     dots: true,
     autoplay: true,
     autoplayHoverPause: true,
-    // autoWidth: true,
     responsive: {
       0: {
         items: 1

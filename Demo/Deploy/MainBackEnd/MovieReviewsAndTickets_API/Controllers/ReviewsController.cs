@@ -121,6 +121,9 @@ namespace MovieReviewsAndTickets_API.Controllers
                 }
             }
 
+            //Retrain model
+            var reviews = await _context.Reviews.Select(r => new MovieRating() { userId = r.AccountId, movieId = r.MovieId, Label = r.Ratings }).ToListAsync();
+            RetrainModel(_mlContext, reviews);
             return NoContent();
         }
 

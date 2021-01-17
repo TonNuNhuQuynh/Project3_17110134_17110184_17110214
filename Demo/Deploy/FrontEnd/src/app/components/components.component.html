@@ -107,7 +107,7 @@
 
             <!-- Phim đang chiếu rạp -->
             <div class="container">
-                <div class="pt-2 pb-4">
+                <div class="pt-2 pb-4 now-playing">
                     <h3 class="text-danger mb-2"><a [routerLink]="['/movie/now']" class="mr-4">Đang chiếu</a> | <a [routerLink]="['/movie/upcomings']" title="Sắp chiếu" class="text-muted ml-4">Sắp chiếu</a></h3>
                     <div class="row" *ngIf="!isLoaded3">
                         <div class="col-12 text-center"><div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div></div> 
@@ -140,7 +140,7 @@
             <hr>
 
             <!-- Gợi ý phim cho bạn -->
-            <div class="container">
+            <div class="container now-playing">
                 <h3 class="text-danger"><strong style="font-weight: 500;">Gợi ý cho bạn</strong></h3>
                 <p class="text-muted h6 mb-2">Gợi ý dựa trên các phim bạn đã đánh giá</p>
 
@@ -159,14 +159,14 @@
                         <div class="col-12 text-center"><div class="spinner-border text-danger" role="status"><span class="sr-only">Loading...</span></div></div> 
                     </div>
 
-                    <div *ngIf="isLoaded4 && recommends.length < 6" style="display:block" class="empty text-center page-loader">
+                    <div *ngIf="isLoaded4 && recommends.length == 0" style="display:block" class="empty text-center page-loader">
                         <a ><img src="assets/img/logo.png" /></a>
                         <p class="mt-2 h5 text-danger"><strong>Đã đăng nhập nhưng chưa đánh giá</strong></p>
                         <p class="h6 text-muted">Hãy một đánh giá phim nào đó để chúng tôi có thể gợi ý cho bạn</p>
                         <br>
                     </div>
     
-                    <owl-carousel-o *ngIf="isLoaded4 && recommends.length >= 6" [options]="customOptions2">
+                    <owl-carousel-o *ngIf="isLoaded4 && recommends.length > 0" [options]="customOptions2">
                         <ng-template carouselSlide *ngFor="let m of recommends">
                             <div class="card card-xs">
                                 <div class="btn-group btn-actions">
